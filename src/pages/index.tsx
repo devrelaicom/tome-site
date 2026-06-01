@@ -1,43 +1,24 @@
-import type {ReactNode} from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import React from 'react';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
+import Hero from '@site/src/components/landing/Hero';
+import Highlights from '@site/src/components/landing/Highlights';
+import HowItWorks from '@site/src/components/landing/HowItWorks';
+import SpecSheet from '@site/src/components/landing/SpecSheet';
+import FeaturedCatalog from '@site/src/components/landing/FeaturedCatalog';
+import GetStarted from '@site/src/components/landing/GetStarted';
+import AuthorOnramp from '@site/src/components/landing/AuthorOnramp';
 
-import styles from './index.module.css';
-
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+export default function Home(): React.JSX.Element {
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-export default function Home(): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
+    <Layout title="Tome — One catalog, every coding agent" description="Cross-harness plugin manager for AI coding agents. Manage skills, commands, agents & hooks once; search and load them on demand across Claude Code, Cursor, Codex, Gemini & OpenCode.">
       <main>
-        <HomepageFeatures />
+        <Hero />
+        <Highlights />
+        <HowItWorks />
+        <SpecSheet />
+        <FeaturedCatalog />
+        <GetStarted />
+        <AuthorOnramp />
       </main>
     </Layout>
   );

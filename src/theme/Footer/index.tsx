@@ -1,0 +1,33 @@
+import React from 'react';
+import styles from './footer.module.css';
+
+const COLS = [
+  {h: 'Product', links: [['Install', '/docs/getting-started/install'], ['Docs', '/docs/getting-started/install'], ['Catalogs', '/docs/catalogs/midnight-expert'], ['Changelog', 'https://github.com/devrelaicom/tome/blob/main/CHANGELOG.md']]},
+  {h: 'Project', links: [['GitHub', 'https://github.com/devrelaicom/tome'], ['Security', '/docs/reference/security-model'], ['Blog', '/blog']]},
+  {h: 'Midnight', links: [['Midnight Network', 'https://midnight.network'], ['Midnight Expert', 'https://midnightntwrk.expert'], ['Compact', 'https://docs.midnight.network']]},
+];
+
+export default function Footer(): React.JSX.Element {
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.wrap}>
+        <div className={styles.grid}>
+          <div>
+            <div className={styles.wm}>TOME</div>
+            <div className={styles.made}>A Midnight Foundation tool.<br/>tome.midnightntwrk.expert<br/>MIT OR Apache-2.0</div>
+          </div>
+          {COLS.map((col) => (
+            <div key={col.h}>
+              <h4>{col.h}</h4>
+              {col.links.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
+            </div>
+          ))}
+        </div>
+        <div className={styles.bar}>
+          <span>© 2026 Midnight Foundation</span>
+          <span>FIG. 001 — built with care, on paper</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
