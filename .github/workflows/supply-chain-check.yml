@@ -45,7 +45,9 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # pnpm 11.5 (package.json packageManager) requires Node >= 22.13;
+          # Node 20 fails install with ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite.
+          node-version: "22"
           cache: pnpm
 
       # --frozen-lockfile fails the build if pnpm-lock.yaml is out of sync with

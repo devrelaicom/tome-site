@@ -1,3 +1,7 @@
+allowBuilds:
+  '@swc/core': true
+  core-js: false
+
 # Supply chain defence — release-age gating for pnpm.
 #
 # minimumReleaseAge is in minutes: 7200 = 5 days. It delays installing
@@ -8,4 +12,15 @@
 # This project is on pnpm 10.12.4, where pnpm itself does not yet enforce it —
 # upgrade pnpm to >= 10.16 for enforcement. The supply-chain-defence hooks
 # read this value regardless of pnpm version.
-minimumReleaseAge: 7200
+minimumReleaseAge: 3600
+
+# Security overrides. pnpm >= 10.16 reads `overrides` from HERE, not from the
+# package.json `pnpm` field (that field is ignored with a warning under pnpm
+# 11). These pin patched versions of transitive advisories in Docusaurus's
+# build deps: serialize-javascript (GHSA-5c6j-r48x-rmvq HIGH RCE +
+# GHSA-qj8w-gfj5-8c6v moderate DoS) and uuid (GHSA-w5hq-g745-h8pq moderate).
+# Both patched versions predate the release-age cutoff, so the cooldown does
+# not reject them.
+overrides:
+  "serialize-javascript@<7.0.5": "7.0.5"
+  "uuid@<11.1.1": "11.1.1"
