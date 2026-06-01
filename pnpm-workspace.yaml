@@ -1,0 +1,11 @@
+# Supply chain defence — release-age gating for pnpm.
+#
+# minimumReleaseAge is in minutes: 7200 = 5 days. It delays installing
+# newly published package versions, giving the community time to detect and
+# report malicious releases before they can reach this project.
+#
+# Natively enforced by pnpm >= 10.16 (which defaults it to 1440 = 1 day).
+# This project is on pnpm 10.12.4, where pnpm itself does not yet enforce it —
+# upgrade pnpm to >= 10.16 for enforcement. The supply-chain-defence hooks
+# read this value regardless of pnpm version.
+minimumReleaseAge: 7200
