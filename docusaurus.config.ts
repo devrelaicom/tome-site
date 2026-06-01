@@ -12,7 +12,7 @@ const config: Config = {
   url: 'https://tome.midnightntwrk.expert',
   baseUrl: '/',
 
-  organizationName: 'devrel-ai',
+  organizationName: 'devrelaicom',
   projectName: 'tome-site',
 
   onBrokenLinks: 'throw',
@@ -49,7 +49,7 @@ const config: Config = {
         {to: '/docs/getting-started/install', label: 'Docs', position: 'left'},
         {to: '/docs/catalogs/midnight-expert', label: 'Catalogs', position: 'left'},
         {to: '/blog', label: 'Blog', position: 'left'},
-        {href: 'https://github.com/devrel-ai/tome', label: 'GitHub', position: 'right'},
+        {href: 'https://github.com/devrelaicom/tome', label: 'GitHub', position: 'right'},
         {to: '/docs/getting-started/install', label: 'Install', position: 'right', className: 'navbar-install-cta'},
       ],
     },
