@@ -7,6 +7,14 @@ const config: Config = {
   tagline: 'One catalog, every coding agent.',
   favicon: 'img/favicon.ico',
 
+  // Modern favicon set (provided assets live under static/img/, served at /img/).
+  headTags: [
+    {tagName: 'link', attributes: {rel: 'icon', type: 'image/png', href: '/img/favicon-96x96.png', sizes: '96x96'}},
+    {tagName: 'link', attributes: {rel: 'icon', type: 'image/svg+xml', href: '/img/favicon.svg'}},
+    {tagName: 'link', attributes: {rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png'}},
+    {tagName: 'link', attributes: {rel: 'manifest', href: '/img/site.webmanifest'}},
+  ],
+
   future: {v4: true},
 
   url: 'https://tome.midnightntwrk.expert',
@@ -44,7 +52,7 @@ const config: Config = {
     colorMode: {defaultMode: 'light', disableSwitch: true, respectPrefersColorScheme: false},
     navbar: {
       title: 'Tome',
-      logo: {alt: 'Tome', src: 'img/favicon.ico'},
+      logo: {alt: 'Tome', src: 'img/tome-logo.svg'},
       items: [
         {to: '/docs/getting-started/install', label: 'Docs', position: 'left'},
         {to: '/docs/catalogs/midnight-expert', label: 'Catalogs', position: 'left'},
