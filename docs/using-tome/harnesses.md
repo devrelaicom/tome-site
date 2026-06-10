@@ -1,9 +1,15 @@
 ---
 title: Harnesses
-sidebar_position: 1
+sidebar_position: 3
 ---
 
 # Harnesses
+
+You probably don't use one coding agent. You use Claude Code at work, Cursor
+for the side project, and whatever shipped this week. Each one invented its
+own place to put rules, skills, and MCP config — and none of them read each
+other's. Tome's job is to make that someone else's problem: one `harness use`,
+and your whole library lands in each agent's native dialect.
 
 A **harness** is a coding agent Tome targets. Tome supports five:
 **Claude Code, Cursor, Codex, Gemini CLI, and OpenCode**. Running
@@ -24,7 +30,11 @@ guardrails (rules) → agents**. What lands depends on what the harness supports
   written as per-plugin marker regions in the harness's rules file. Tome only
   ever edits inside its own markers, so your hand-written content is left alone.
 - **MCP server config** — wiring so the harness can reach `tome mcp` for search
-  and skill loading.
+  and skill loading. When `tome harness sync` writes this wiring, it stamps the
+  host's identity into the spawned server's arguments
+  (`tome mcp --workspace <ws> --harness <name>`) — the
+  [MCP server](./mcp-server.md)'s `meta` tool relies on that stamp to know which
+  harness it is installing into.
 - **Native agents** — each plugin agent translated to the harness's native agent
   format, where the harness has one.
 - **Hooks** — event-driven actions, where the harness supports them.
@@ -62,6 +72,15 @@ tome harness info <name>   # show what Tome manages for a harness
 tome harness sync          # re-write native config from current state
 tome harness remove <name> # remove Tome-managed config for a harness
 ```
+
+Before you've declared anything, `tome harness list` says so plainly:
+
+```text
+No harnesses declared in any settings layer.
+```
+
+Harness declarations live in Tome's layered settings; `tome harness use <name>`
+adds one.
 
 Bare `tome harness` opens an interactive picker. For repairing a harness's
 configuration, see [Troubleshooting](./troubleshooting.md) and `tome doctor`.
