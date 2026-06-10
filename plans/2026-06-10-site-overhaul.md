@@ -320,10 +320,12 @@ Everything quoted in docs and the landing demo comes from these captures.
 - [ ] **Step 1: Build/verify the tome binary**
 
 ```bash
-cd /Users/aaronbassett/Projects/devrel-ai/tome && cargo build --release && ./target/release/tome --version
+cd /Users/aaronbassett/Projects/devrel-ai/tome && cargo build --release \
+  && mkdir -p /tmp/tome-bin-cache && cp target/release/tome /tmp/tome-bin-cache/tome \
+  && /tmp/tome-bin-cache/tome --version
 ```
 
-Expected: prints `tome 0.6.0` (or current version). If the build fails, stop and report — do not proceed with a stale binary.
+Expected: prints `tome 0.6.0` (or current version). If the build fails, stop and report — do not proceed with a stale binary. **Use `/tmp/tome-bin-cache/tome` as `$B` for every later step** — an external cache cleaner has been observed wiping `tome/target/` mid-session (2026-06-10, twice).
 
 - [ ] **Step 2: Regenerate the contract's command half**
 
@@ -333,15 +335,34 @@ cd /Users/aaronbassett/Projects/devrel-ai/tome-site && pnpm drift:generate && gi
 
 Expected: "Regenerated N command groups". Review the diff: if the regenerated surface differs from the Task 2 seed (extra/missing flags or subcommands), the binary wins. If a whole expected group (e.g. `meta`) is missing, stop and report.
 
-- [ ] **Step 3: Capture the real sessions**
+- [ ] **Step 3: Convert the real midnight-expert marketplace locally**
+
+`devrelaicom/midnight-expert-tome` is NOT published yet (verified 404, 2026-06-10 — recorded as a launch hard-stop in spec §11). The honest source is the real Claude Code marketplace clone on this machine. Convert it, make the output a git repo, and add it by local path (`catalog add` interprets a local path as `file://`, so the converted catalog must be a committed git repo):
 
 ```bash
+B=/tmp/tome-bin-cache/tome
 mkdir -p specs/reference/captures
-B=/Users/aaronbassett/Projects/devrel-ai/tome/target/release/tome
+SRC=~/.claude/plugins/marketplaces/midnight-expert
+rm -rf /tmp/me-tome-catalog
+$B catalog convert "$SRC" --output /tmp/me-tome-catalog --dry-run > specs/reference/captures/convert-dry-run.txt 2>&1 || true
+$B catalog convert "$SRC" --output /tmp/me-tome-catalog           > specs/reference/captures/convert.txt 2>&1
+$B catalog lint /tmp/me-tome-catalog                              > specs/reference/captures/lint.txt 2>&1 || true
+git -C /tmp/me-tome-catalog init -b main -q && git -C /tmp/me-tome-catalog add -A \
+  && git -C /tmp/me-tome-catalog -c user.email=cap@local -c user.name=capture commit -qm "converted catalog"
+```
+
+If the convert itself errors (not warns — warnings are good documentation), stop and report. Record `# source: devrelaicom/midnight-expert (local marketplace clone)` as the first line of each capture file.
+
+- [ ] **Step 4: Capture the real sessions against the converted catalog**
+
+```bash
+B=/tmp/tome-bin-cache/tome
 $B models list                                            > specs/reference/captures/models-list.txt 2>&1
-$B catalog add devrelaicom/midnight-expert-tome           > specs/reference/captures/catalog-add.txt 2>&1 || true
+$B models download                                                                  # fresh machine: required before query (~325 MB)
+$B catalog add /tmp/me-tome-catalog --name midnight-expert > specs/reference/captures/catalog-add.txt 2>&1
 $B catalog show midnight-expert                           > specs/reference/captures/catalog-show.txt 2>&1
-$B plugin enable midnight-expert                          > specs/reference/captures/plugin-enable.txt 2>&1 || true
+# pick ONE real plugin name from catalog-show.txt for the canonical examples:
+$B plugin enable <real-plugin-from-show>                  > specs/reference/captures/plugin-enable.txt 2>&1 || true
 $B plugin list                                            > specs/reference/captures/plugin-list.txt 2>&1
 $B query "verify a Compact contract"                      > specs/reference/captures/query.txt 2>&1
 $B query "verify a Compact contract" --top-k 3            > specs/reference/captures/query-topk.txt 2>&1
@@ -351,26 +372,14 @@ $B doctor                                                 > specs/reference/capt
 $B harness list                                           > specs/reference/captures/harness-list.txt 2>&1
 $B skill create demo-skill --bare --output /tmp/tome-cap  > specs/reference/captures/skill-create.txt 2>&1 || true
 ls /tmp/tome-cap                                          >> specs/reference/captures/skill-create.txt 2>&1
+find /tmp/me-tome-catalog -name tome-plugin.toml | head -1 | xargs cat > specs/reference/captures/tome-plugin-toml.txt 2>&1
 ```
 
-Notes: `|| true` where the command legitimately no-ops on a machine that already has the catalog (`catalog add` → exit 4, `plugin enable` → exit 21 — both are themselves useful captures). If `query` fails with exit 30 (`model_missing`), run `$B models download` first. If the catalog clone needs auth/network and fails, stop and report.
-
-- [ ] **Step 4: Convert-session capture (authoring docs need it)**
-
-```bash
-B=/Users/aaronbassett/Projects/devrel-ai/tome/target/release/tome
-rm -rf /tmp/tome-convert-demo && mkdir -p /tmp/tome-convert-demo
-# Use a real local Claude Code plugin as the source if one exists on disk;
-# otherwise convert the cloned midnight-expert marketplace source. Record what was used.
-$B catalog convert ~/.claude/plugins/cache/claude-plugins-official --output /tmp/tome-convert-demo/catalog --dry-run > specs/reference/captures/convert-dry-run.txt 2>&1 || true
-$B catalog lint /tmp/tome-convert-demo/catalog            > specs/reference/captures/lint.txt 2>&1 || true
-```
-
-If neither source converts cleanly, capture whatever honest output appears (warnings included) — warnings make better documentation than sanitized success. Record the chosen source path at the top of each capture file as a `# source:` comment line.
+If `catalog add` of the local path fails after the git-init, stop and report with the exact error.
 
 - [ ] **Step 5: Extract the headline numbers**
 
-Read `catalog-show.txt` and `query.txt`; write `specs/reference/captures/NUMBERS.md` recording: plugin count, entry count (skills/commands/agents/hooks), and the top query hits with scores. These are the only numbers the landing page and `plugins-and-catalogs.md` may use.
+Read `catalog-show.txt` and `query.txt`; write `specs/reference/captures/NUMBERS.md` recording: plugin count, entry count (skills/commands/agents/hooks), the top query hits with scores, and the canonical demo plugin name chosen in Step 4. These are the only numbers/names the landing page and docs may use. **Slug rule:** docs and the landing demo show the intended public slug `devrelaicom/midnight-expert-tome` in `catalog add` command lines (spec §11 records the publish dependency), but may only quote count/score lines from these captures — never a line embedding the local `/tmp` path.
 
 - [ ] **Step 6: Commit**
 

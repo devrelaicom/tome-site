@@ -145,6 +145,7 @@ All inside tome-site:
 ## 11. Launch dependencies & risks
 
 - **Install instructions** (`brew install aaronbassett/homebrew-tap/tome`, `cargo install tome-mcp`) depend on the user-reserved publish hard-stops in the tome repo (crates.io publish, v0.6.0 tag, Homebrew tap PR). The site keeps documenting them, but the site should not be promoted before those run.
+- **The featured catalog repo does not exist yet** (discovered 2026-06-10 during implementation: `devrelaicom/midnight-expert-tome` 404s). The site documents the *intended* public slug, exactly like the install instructions; publishing that repo (a Tome conversion of `devrelaicom/midnight-expert`) is a launch hard-stop. All counts/scores shown on the site are captured from a *local* `tome catalog convert` of the real `midnight-expert` marketplace clone — real content, real numbers; only the repo slug is forward-looking.
 - **Demo/doc capture** requires a locally built `tome` binary and the midnight-expert catalog; real-model search output additionally requires downloaded models (`tome models download`). Captured during implementation.
 - **Parchment legibility** — mitigated by the reading-room decision (sans body, conventional layout) and the AA gate.
 - **Newsreader licensing** — SIL OFL; self-hosting is permitted.
