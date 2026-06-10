@@ -39,7 +39,13 @@ test('docs sidebar shows the four chapters and navigates', async ({page}) => {
 });
 
 test('dark mode toggle switches to the midnight library', async ({page}) => {
+  await page.emulateMedia({colorScheme: 'light'});
   await page.goto('/');
-  await page.getByRole('button', {name: /dark mode|color mode|switch between dark and light/i}).click();
+  // Docusaurus 3.10's toggle cycles system → light → dark; click until dark sticks.
+  const toggle = page.getByRole('button', {name: /dark mode|color mode|switch between dark and light/i});
+  for (let i = 0; i < 3; i += 1) {
+    if ((await page.locator('html').getAttribute('data-theme')) === 'dark') break;
+    await toggle.click();
+  }
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
