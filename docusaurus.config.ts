@@ -41,7 +41,7 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/tome-social-card.png',
-    colorMode: {defaultMode: 'light', disableSwitch: true, respectPrefersColorScheme: false},
+    colorMode: {defaultMode: 'light', disableSwitch: false, respectPrefersColorScheme: true},
     navbar: {
       title: 'Tome',
       logo: {alt: 'Tome', src: 'img/tome-logo.svg'},
@@ -52,7 +52,7 @@ const config: Config = {
       ],
     },
     footer: undefined, // replaced by the swizzled Footer (Task 6)
-    prism: {theme: prismThemes.oneLight, darkTheme: prismThemes.oneLight},
+    prism: {theme: prismThemes.oneDark, darkTheme: prismThemes.oneDark},
   } satisfies Preset.ThemeConfig,
 };
 
