@@ -5,8 +5,12 @@ sidebar_position: 1
 
 # Install Tome
 
-Tome ships as a single self-contained binary. The semantic index, reranker, and
-local models are built in — there is nothing else to install to get search working.
+One binary, batteries included. Tome ships as a single self-contained
+executable: the semantic index, vector search, and reranker runtime are compiled
+in, and the two search models are fetched on demand — a 32 MB embedder and a
+266 MB reranker, downloaded the first time they're needed (or explicitly with
+`tome models download`) and kept under `~/.tome/`. No daemon, no account, no
+telemetry.
 
 ## Prerequisites
 
@@ -56,4 +60,5 @@ Prebuilt binaries are provided for Linux and macOS on both `x86_64` and
 tome --version
 ```
 
-If that prints a version, you're ready for the [Quickstart](./quickstart.md).
+If that prints a version, the shelf is up — on to the
+[Quickstart](./quickstart.md).
