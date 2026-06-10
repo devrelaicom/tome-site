@@ -5,9 +5,10 @@ sidebar_position: 3
 
 # Configuration
 
-Every Tome-owned path lives under a single root: `~/.tome/`. There is no scatter
-across the filesystem. Project directories carry a small marker so Tome knows
-which workspace they belong to.
+Tome keeps its whole library in one place. Every Tome-owned path lives under a
+single root — `~/.tome/` — so inspecting, backing up, or removing Tome's state
+is one directory, not an excavation across your filesystem. Project directories
+carry a small marker so Tome knows which workspace they belong to.
 
 ## `~/.tome/` layout
 
@@ -29,6 +30,15 @@ which workspace they belong to.
 There is exactly one central `index.db`, one `index.lock`, and one global
 `config.toml`. Per-workspace state lives under `workspaces/<name>/`.
 
+A few details worth knowing:
+
+- **`index.lock`** is an advisory lock guarding index writes. Read-only
+  commands — `tome status` in particular — never take it, so they are always
+  safe to run while something else is indexing.
+- **`catalogs/`** holds shared clones, reference-counted across everything
+  that uses them. Adding the same catalog twice doesn't clone it twice, and a
+  clone is deleted only when the last reference to it is removed.
+
 ## Global `config.toml`
 
 `~/.tome/config.toml` holds global configuration. Tome bootstraps the `~/.tome/`
@@ -43,8 +53,9 @@ Harness composition is resolved from layered settings:
 - **Workspace** — `~/.tome/workspaces/<name>/settings.toml`
 
 The workspace layer composes over the global layer to produce the configuration
-written to each harness. Edits are made surgically, preserving comments and key
-order.
+written to each [harness](../using-tome/harnesses.md). Edits are made
+surgically, preserving comments and key order — Tome never rewrites a settings
+file wholesale.
 
 ## Project markers
 
@@ -62,5 +73,7 @@ This is how working inside a project activates the right
 ## Models
 
 Downloaded models live under `~/.tome/models/`, each with its own
-`manifest.json`. Manage them with `tome models {download,list,remove}` against a
-pinned registry. See the [Commands reference](../commands/reference.md#tome-models).
+`manifest.toml`. (Older installs that still have a `manifest.json` are migrated
+in place by `tome doctor --fix` — no re-download.) Manage models with
+`tome models {download,list,remove}` against a pinned registry. See the
+[Commands reference](./commands.md#tome-models).
