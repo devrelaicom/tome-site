@@ -5,15 +5,39 @@ sidebar_position: 4
 
 # Workspaces
 
-A **workspace** is a per-project scope. Different workspaces enable different
-catalogs and plugins, so the composition that's active for one project doesn't
-leak into another.
+Your contracts project needs the verification skills; your web app couldn't
+care less. A **workspace** is a per-project scope: each one enables its own
+catalogs and plugins, so the composition that's active for one project never
+leaks into another's context.
 
 ## Why workspaces
 
-Without workspaces, every plugin you enable is enabled everywhere. Workspaces let
-you keep a focused set per project — a Compact contract project might enable the
-Midnight Expert plugins, while another project enables a different set entirely.
+Without workspaces, every plugin you enable is enabled everywhere. Workspaces
+let you keep a focused set per project — a Compact contract project might
+enable the Midnight Expert verification plugin, while another project enables
+a different set entirely.
+
+## Two projects, two compositions
+
+```bash
+# the contracts project reads the verification volume
+tome workspace init contracts
+tome workspace use contracts
+tome plugin enable midnight-expert/midnight-verify
+
+# the dapp project reads a different one
+tome workspace init dapp
+tome workspace use dapp
+tome plugin enable midnight-expert/midnight-dapp-dev
+```
+
+Each `plugin enable` is recorded against the *active* workspace. Switch back
+to `contracts` and `midnight-dapp-dev` is no longer part of what your agent
+sees; `midnight-verify` is. To inspect where you stand:
+
+```bash
+tome workspace info   # the active workspace and its composition
+```
 
 ## Lifecycle
 
@@ -50,3 +74,10 @@ tome workspace sync            # reconcile the workspace with current state
 If a workspace looks out of sync, `tome doctor` reports it and `tome doctor --fix`
 re-runs the relevant reconciliation. See
 [Troubleshooting](./troubleshooting.md).
+
+## Where next
+
+- [Harnesses](./harnesses.md) — how a workspace's composition lands in each
+  agent's native config.
+- [Plugins & catalogs](./plugins-and-catalogs.md) — the enable/disable
+  lifecycle that workspaces scope.
