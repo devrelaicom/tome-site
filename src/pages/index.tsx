@@ -1,24 +1,24 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Hero from '@site/src/components/landing/Hero';
-import Highlights from '@site/src/components/landing/Highlights';
-import HowItWorks from '@site/src/components/landing/HowItWorks';
-import SpecSheet from '@site/src/components/landing/SpecSheet';
-import FeaturedCatalog from '@site/src/components/landing/FeaturedCatalog';
-import GetStarted from '@site/src/components/landing/GetStarted';
-import AuthorOnramp from '@site/src/components/landing/AuthorOnramp';
+import Sprawl from '@site/src/components/landing/Sprawl';
+import Method from '@site/src/components/landing/Method';
+import Colophon from '@site/src/components/landing/Colophon';
+import AuthoringOnramp from '@site/src/components/landing/AuthoringOnramp';
+import FinalCta from '@site/src/components/landing/FinalCta';
 
 export default function Home(): React.JSX.Element {
   return (
-    <Layout title="Tome — One catalog, every coding agent" description="Cross-harness plugin manager for AI coding agents. Manage skills, commands, agents & hooks once; search and load them on demand across Claude Code, Cursor, Codex, Gemini & OpenCode.">
+    <Layout
+      title="Tome — One bookshelf, every coding agent"
+      description="One bookshelf for everything your coding agents know — read everywhere, loaded one skill at a time. Tome manages skills, commands, agents & hooks across Claude Code, Cursor, Codex, Gemini & OpenCode.">
       <main>
         <Hero />
-        <Highlights />
-        <HowItWorks />
-        <SpecSheet />
-        <FeaturedCatalog />
-        <GetStarted />
-        <AuthorOnramp />
+        <Sprawl />
+        <Method />
+        <Colophon />
+        <AuthoringOnramp />
+        <FinalCta />
       </main>
     </Layout>
   );
