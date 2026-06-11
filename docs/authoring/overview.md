@@ -5,20 +5,20 @@ sidebar_position: 1
 
 # Authoring
 
-*Chapter III — in which you write your own.*
+This page covers writing your own skills, plugins, and catalogs.
 
-Everything so far has been about reading other people's work: add a catalog,
-enable a plugin, let your agents read from the shelf. Sooner or later you have
-knowledge of your own — a debugging ritual, a deploy runbook, a house style —
-and pasting it into five harness configs is exactly the problem Tome exists to
-end. Write it once, shelve it once, and every agent you run can read it.
+The previous sections covered using other people's work: add a catalog,
+enable a plugin, and let your agents use the entries. Sooner or later you have
+knowledge of your own — a debugging workflow, a deploy runbook, a style guide —
+and pasting it into five harness configs is exactly the problem Tome solves.
+Write it once, publish it as a catalog, and every agent you use can load it.
 
-This page covers the shape of what you're writing. The three verbs that produce
-it — [`create`](./create.md), [`convert`](./convert.md), and
-[`lint`](./lint.md) — each get their own page, and
-[Distributing](./distributing.md) covers sharing the result.
+This page describes the files you will write. The three commands that produce
+them — [`create`](./create.md), [`convert`](./convert.md), and
+[`lint`](./lint.md) — each have their own page, and
+[Distributing](./distributing.md) covers how to share the result.
 
-## Anatomy of a catalog
+## Catalog structure
 
 A catalog is just a **git repository of plugins** with one manifest at its root:
 
@@ -39,10 +39,10 @@ your-catalog/
         └── <name>.md          # one file per hook
 ```
 
-The layout descends from Claude Code's plugin format, which is why converting
-an existing Claude Code plugin is mostly mechanical — but the manifest Tome
-reads is its own. A plugin directory that carries only the legacy
-`.claude-plugin/plugin.json` is not yet a Tome plugin: commands that touch it
+The layout is based on Claude Code's plugin format, which is why converting
+an existing Claude Code plugin is mostly mechanical — but Tome reads its own
+manifest. A plugin directory that contains only the legacy
+`.claude-plugin/plugin.json` is not yet a Tome plugin: commands that read it
 exit `80` (`plugin_not_converted`) until [`tome plugin convert`](./convert.md)
 writes the native manifest alongside it.
 
@@ -73,8 +73,8 @@ source = "my-plugin"
 ## `tome-plugin.toml`
 
 Each plugin has a manifest at its root: `<plugin>/tome-plugin.toml`. Like the
-catalog manifest it is parsed strictly — a typo'd or unknown field is a parse
-error, not a silent shrug.
+catalog manifest, it is parsed strictly — a misspelled or unknown field is a
+parse error, not a silently ignored value.
 
 ```toml
 name = "my-plugin"
@@ -105,14 +105,14 @@ A plugin contributes four kinds of
 - **Hooks** — `hooks/<name>.md`. Event-driven actions, wired in where the
   harness supports them.
 
-## The three verbs
+## The three commands
 
-Three verbs produce all of the above. [`create`](./create.md) scaffolds a new
-skill, plugin, or catalog from a built-in template — lint-clean by
-construction, so you start from a passing state and edit downhill.
-[`convert`](./convert.md) migrates what you already have: Claude Code
+Three commands produce all of the above. [`create`](./create.md) scaffolds a
+new skill, plugin, or catalog from a built-in template — lint-clean by
+construction, so you start from a passing state and keep it passing as you
+edit. [`convert`](./convert.md) migrates what you already have: Claude Code
 marketplaces, plugins, and skills, Codex projects, and native `SKILL.md` trees
 from other harnesses. [`lint`](./lint.md) validates the result — and never
 halts on a malformed artifact, because malformed input is a finding, not a
-crash. When the lint run comes back clean, [Distributing](./distributing.md)
-is one `git push` away.
+crash. When the lint run is clean, [Distributing](./distributing.md) shows how
+to publish the result with one `git push`.

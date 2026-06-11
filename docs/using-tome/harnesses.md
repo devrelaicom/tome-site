@@ -5,11 +5,11 @@ sidebar_position: 3
 
 # Harnesses
 
-You probably don't use one coding agent. You use Claude Code at work, Cursor
-for the side project, and whatever shipped this week. Each one invented its
-own place to put rules, skills, and MCP config — and none of them read each
-other's. Tome's job is to make that someone else's problem: one `harness use`,
-and your whole library lands in each agent's native dialect.
+You probably don't use one coding agent. You might use Claude Code at work,
+Cursor for a side project, and a new tool next month. Each one has its own
+place for rules, skills, and MCP config — and none of them reads the others'.
+Tome handles this for you: run `tome harness use <name>` and your enabled
+plugins are written to that agent's native configuration.
 
 A **harness** is a coding agent Tome targets. Tome supports five:
 **Claude Code, Cursor, Codex, Gemini CLI, and OpenCode**. Running
@@ -24,7 +24,8 @@ keeps each harness in sync as you enable or disable plugins.
 ## What `tome harness use` writes
 
 For every harness, Tome reconciles three sinks, in this order: **hooks →
-guardrails (rules) → agents**. What lands depends on what the harness supports:
+guardrails (rules) → agents**. What is written depends on what the harness
+supports:
 
 - **Rules file** — a prose fallback (rendered from each plugin's `GUARDRAILS.md`)
   written as per-plugin marker regions in the harness's rules file. Tome only
@@ -73,7 +74,7 @@ tome harness sync          # re-write native config from current state
 tome harness remove <name> # remove Tome-managed config for a harness
 ```
 
-Before you've declared anything, `tome harness list` says so plainly:
+Before you declare any harness, `tome harness list` reports that:
 
 ```text
 No harnesses declared in any settings layer.

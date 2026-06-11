@@ -84,9 +84,9 @@ No redirects for moved/deleted URLs (decision above).
 - **Concept pages** (concepts, authoring/overview, security-model): the problem first, then the model that solves it; one diagram each.
 - **Reference pages** (commands, exit-codes, config): terse, tabular, complete. Voice lives in ledes and asides, never inside tables.
 
-**Voice:** confident, wry, concrete. Bookish flourishes in chapter headings and ledes; zero fluff once instruction begins. Calibration sample (approved):
+**Voice (revised 2026-06-10, supersedes the bookish docs voice):** docs read like Stripe's documentation — professional but not stiff. Plain, direct, second person, active voice, short sentences, common words. **No similes and no metaphor vocabulary in docs prose** (bookshelf/shelf/volume/chapter-as-content/library/spellbook and similar are banned; "standard library" the technical term is fine) — figurative language is hard for ESL readers, and clarity comes first. No idioms ("by default", not "out of the box"). Wry warmth only as plain statements of pain or benefit. **The grimoire personality lives in the visual design, navigation chapter labels, and the landing page (where a limited number of similes is acceptable) — not in docs prose.** Calibration sample (revised):
 
-> You probably don't use one coding agent. You use Claude Code at work, Cursor for the side project, and whatever shipped this week. Each one invented its own place to put rules, skills, and MCP config — and none of them read each other's. Tome's job is to make that someone else's problem: one `harness use`, and your whole library lands in each agent's native dialect.
+> You probably don't use one coding agent. You use Claude Code at work, Cursor for a side project, and whatever shipped this week. Each one stores rules, skills, and MCP config in its own format, in its own location — and none of them read each other's. Tome maintains one copy of everything: run `tome harness use <name>` and your enabled plugins are written to that agent's native configuration.
 
 **Accuracy rules:**
 

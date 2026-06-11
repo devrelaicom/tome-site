@@ -5,9 +5,9 @@ sidebar_position: 7
 
 # Troubleshooting
 
-Something looks off. Tome gives you two read-only commands to find out what,
-and one flag to repair it: `status` for a fast glance, `doctor` for the full
-examination, `doctor --fix` for the cure.
+When something looks wrong, Tome gives you two read-only commands to diagnose
+it and one flag to repair it: `status` for a quick check, `doctor` for a full
+report, and `doctor --fix` for repairs.
 
 ## `tome status`
 
@@ -44,7 +44,7 @@ tome doctor --verify   # deeper checks
 tome doctor --json     # machine-readable
 ```
 
-The report opens with the same vitals as `status`, in more detail:
+The report starts with the same information as `status`, in more detail:
 
 ```text
 Tome:            0.6.0
@@ -64,7 +64,7 @@ Drift:           none
 ```
 
 …and continues through catalog caches and detected harnesses before the
-verdict (`Overall: [ok] healthy` on a good day).
+overall verdict (`Overall: [ok] healthy` when everything is healthy).
 
 `--fix` re-runs the same idempotent reconcilers the normal commands use, so a
 repair inherits all their safety (marker-bounded edits, structural-match-only
@@ -73,7 +73,7 @@ removal, symlink refusal). It won't take a destructive shortcut.
 ## Common failures
 
 Every failure maps to a specific exit code — no generic "something went wrong".
-The usual suspects:
+Common cases:
 
 | Symptom | Exit code | Fix |
 | --- | --- | --- |
@@ -88,7 +88,7 @@ The usual suspects:
 | `create`/`convert` refuses to overwrite existing output | `81` | Choose a fresh `--output`, or pass `--force`. |
 | `lint` found errors, or warnings under `--strict` | `85` / `86` | These are verdicts, not crashes — fix the findings. See [Linting](../authoring/lint.md). |
 
-The complete table, codes 0–89, lives in
+The complete table, codes 0–89, is in
 [Exit codes](../reference/exit-codes.md).
 
 ## Common issues

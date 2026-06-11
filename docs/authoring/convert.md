@@ -5,17 +5,18 @@ sidebar_position: 3
 
 # Converting
 
-Nobody starts a library from scratch. You already have plugins — a Claude Code
-marketplace, a Codex project, a stack of `SKILL.md`s written for Cursor or
-OpenCode. `tome catalog convert` (and its `plugin` and `skill` siblings) turns
-what you have into native Tome artifacts, tells you honestly what survived the
-trip, and never touches the original. Convert, don't rewrite.
+You probably already have plugins — a Claude Code marketplace, a Codex
+project, or a set of `SKILL.md` files written for Cursor or OpenCode.
+`tome catalog convert` (and its `plugin` and `skill` siblings) turns
+what you have into native Tome artifacts, reports exactly what it could and
+could not convert, and never modifies the original. Convert instead of
+rewriting.
 
 ## What converts
 
-The verb names what you want out: a whole collection (`catalog`), one plugin
-(`plugin`), or a single skill (`skill`). The source format is auto-detected;
-`--from` overrides detection when it can't decide.
+The command names what you want to produce: a whole catalog (`catalog`), one
+plugin (`plugin`), or a single skill (`skill`). The source format is
+auto-detected; `--from` overrides detection when it can't decide.
 
 | Source (`--from`) | What it covers |
 | --- | --- |
@@ -52,10 +53,10 @@ Dry run: 616 file(s) to …/midnight-expert-tome  (128 warning(s), 100 info(s))
 
 *(Excerpt — the full plan lists every diagnostic; output paths shortened here.)*
 
-Read the warnings before you commit to anything. Each one is convert being
-honest about a judgment it made on your behalf: a rewritten variable, a dropped
-manifest field, a tool restriction it cannot enforce. When you're satisfied,
-run the same command without `--dry-run`:
+Read the warnings before you continue. Each one records a decision convert
+made for you: a rewritten variable, a dropped manifest field, a tool
+restriction it cannot enforce. When you are satisfied, run the same command
+without `--dry-run`:
 
 ```console
 $ tome catalog convert ~/.claude/plugins/marketplaces/midnight-expert --output ~/catalogs
@@ -64,7 +65,7 @@ Converted claude-code catalog `midnight-expert` → `midnight-expert-tome`
 Done: 616 file(s) to …/midnight-expert-tome  (128 warning(s), 100 info(s))
 ```
 
-Then lint the result to see what residue is left for human judgment:
+Then lint the result to see what still needs manual review:
 
 ```console
 $ tome catalog lint ~/catalogs/midnight-expert-tome
@@ -74,26 +75,27 @@ $ tome catalog lint ~/catalogs/midnight-expert-tome
 Summary: 0 error(s), 18 warning(s), 0 info(s)
 ```
 
-Zero errors: the catalog works as-is. The 18 warnings are the honest residue —
-over-long descriptions and harness-isms Tome refuses to fake. [Linting](./lint.md)
-covers how to work through them (and what `--autofix` can do for you).
+Zero errors: the catalog works as-is. The 18 warnings are what remains for
+manual review — over-long descriptions and harness-isms Tome does not
+emulate. [Linting](./lint.md) covers how to work through them (and what
+`--autofix` can do for you).
 
-## Where the copy lands
+## Output location
 
 Convert never modifies the source — it writes a converted copy:
 
 - The copy is named `<source-name>-tome` by default. Override it with the
   positional `NAME` argument or `--name` (supplying both with different values
   is a usage error).
-- The copy lands under the current directory by default; `--output <dir>`
-  picks a different parent.
-- `--into <path>` injects the converted artifact into an existing Tome
+- Convert writes the copy under the current directory by default;
+  `--output <dir>` selects a different parent.
+- `--into <path>` places the converted artifact inside an existing Tome
   artifact instead: a plugin converted `--into` a catalog is registered in its
-  `tome-catalog.toml`; a skill converted `--into` a plugin lands in its
+  `tome-catalog.toml`; a skill converted `--into` a plugin is written to its
   `skills/` directory. `--into` and `--output` are mutually exclusive.
 - If the destination already contains files convert wants to write, it refuses
   with exit `81`. `--force` overwrites the colliding files — only those files,
-  never a directory wipe.
+  never the whole directory.
 
 ## Remote sources
 
@@ -109,7 +111,7 @@ source argument itself may still be remote.
 
 ## What gets rewritten
 
-Claude Code bodies lean on variables Tome doesn't speak natively. Convert
+Claude Code bodies use variables that Tome does not support directly. Convert
 rewrites them to their Tome equivalents and reports every occurrence:
 
 | Claude Code | Tome |
@@ -121,39 +123,40 @@ rewrites them to their Tome equivalents and reports every occurrence:
 Legacy positional arguments (`$1`..`$9`) are rewritten to Tome's 0-based
 argument substitution.
 
-## What refuses to pretend
+## What cannot be converted
 
-Some things Tome cannot represent, and convert says so instead of silently
-dropping them. Hook monitors, LSP servers, themes, output styles, and the rest
-of the unconvertible tail are each reported as a warning naming exactly what
-was lost. Two injections can't be rewritten at all — file-reference injection
-(`@path`) and shell-execution injection — because Tome does not inject file
-contents or execute commands in bodies; convert warns and leaves them in place
-for your judgment, and `lint` keeps flagging them afterwards as
-`lint/residual-harness-ism`.
+Some features Tome cannot represent, and convert reports them instead of
+silently dropping them. Hook monitors, LSP servers, themes, output styles, and
+the other unsupported components are each reported as a warning that names
+exactly what was lost. Two injections can't be rewritten at all —
+file-reference injection (`@path`) and shell-execution injection — because
+Tome does not inject file contents or execute commands in bodies; convert
+warns and leaves them in place for you to review, and `lint` keeps flagging
+them afterwards as `lint/residual-harness-ism`.
 
-If you'd rather fail than lose anything, pass `--strict`: the first
+If you prefer to fail rather than lose anything, pass `--strict`: the first
 unsupported feature aborts the conversion with exit `84`, writing nothing.
 
-## The cutover: why exit 80 exists
+## Why exit 80 exists
 
 Tome reads exactly one plugin manifest: `tome-plugin.toml`, parsed strictly.
-There is no fallback chain — a plugin that ships only a legacy
-`.claude-plugin/plugin.json` isn't loaded; Tome exits `80` with a nudge to run
-`tome plugin convert`. One format means you always know whether a plugin has
-been converted, and nobody debugs a half-understood lenient parse.
+There is no fallback — a plugin that ships only a legacy
+`.claude-plugin/plugin.json` is not loaded; Tome exits `80` with a message
+telling you to run `tome plugin convert`. One format means you always know
+whether a plugin has been converted, and there is no lenient partial parse to
+debug.
 
 For authors, the practical consequence: run convert against your own checkout,
 review the converted copy, and commit it — replacing the legacy layout — so
-your consumers never meet exit `80`. The converted tree is the thing to
-publish; see [Distributing](./distributing.md). For the manifest itself, see
+your users never see exit `80`. Publish the converted tree; see
+[Distributing](./distributing.md). For the manifest itself, see
 the [authoring overview](./overview.md).
 
-## Let your agent drive
+## Run the workflow with your agent
 
-Tome ships a bundled meta skill, `convert-marketplace`, that teaches your
-agent this whole workflow — drive `convert` and `lint`, apply judgment to the
-residue, and report back for your confirmation before registering anything:
+Tome includes a bundled meta skill, `convert-marketplace`, that teaches your
+agent this whole workflow: run `convert` and `lint`, review the remaining
+warnings, and report back for your confirmation before registering anything:
 
 ```bash
 tome meta add convert-marketplace
@@ -163,17 +166,17 @@ See [Meta skills](../using-tome/meta-skills.md).
 
 ## Pitfalls
 
-| Exit | When you'll hit it | What to do |
+| Exit | When it happens | What to do |
 | --- | --- | --- |
 | `80` | A plugin ships only a legacy `plugin.json` — Tome won't load it | Run `tome plugin convert` (or ask the author to) |
 | `81` | The destination already contains files convert would write | `--force` to overwrite the colliding files, or pick another `--output` |
 | `83` | Source format detection failed | Pass `--from <source>` |
-| `84` | `--strict` met a feature Tome cannot represent | Drop `--strict` to convert with warnings, or remove the unsupported component |
+| `84` | `--strict` found a feature Tome cannot represent | Drop `--strict` to convert with warnings, or remove the unsupported component |
 
 Full table in the [exit code reference](../reference/exit-codes.md).
 
 ## Next steps
 
-- [Linting](./lint.md) — work through the warnings, wire the verdict into CI.
+- [Linting](./lint.md) — work through the warnings, use the verdict in CI.
 - [Distributing](./distributing.md) — publish the converted catalog.
-- [Authoring overview](./overview.md) — what the converted layout actually is.
+- [Authoring overview](./overview.md) — the structure of the converted layout.

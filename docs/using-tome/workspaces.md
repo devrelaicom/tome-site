@@ -5,10 +5,10 @@ sidebar_position: 4
 
 # Workspaces
 
-Your contracts project needs the verification skills; your web app couldn't
-care less. A **workspace** is a per-project scope: each one enables its own
-catalogs and plugins, so the composition that's active for one project never
-leaks into another's context.
+Your contracts project needs the verification skills; your web app does not.
+A **workspace** is a per-project scope: each one enables its own catalogs and
+plugins, so the composition that is active for one project never appears in
+another project's context.
 
 ## Why workspaces
 
@@ -20,12 +20,12 @@ a different set entirely.
 ## Two projects, two compositions
 
 ```bash
-# the contracts project reads the verification volume
+# the contracts project uses the verification plugin
 tome workspace init contracts
 tome workspace use contracts
 tome plugin enable midnight-expert/midnight-verify
 
-# the dapp project reads a different one
+# the dapp project uses a different plugin
 tome workspace init dapp
 tome workspace use dapp
 tome plugin enable midnight-expert/midnight-dapp-dev
@@ -33,7 +33,7 @@ tome plugin enable midnight-expert/midnight-dapp-dev
 
 Each `plugin enable` is recorded against the *active* workspace. Switch back
 to `contracts` and `midnight-dapp-dev` is no longer part of what your agent
-sees; `midnight-verify` is. To inspect where you stand:
+sees; `midnight-verify` is. To check the current state:
 
 ```bash
 tome workspace info   # the active workspace and its composition
@@ -77,7 +77,7 @@ re-runs the relevant reconciliation. See
 
 ## Where next
 
-- [Harnesses](./harnesses.md) — how a workspace's composition lands in each
-  agent's native config.
+- [Harnesses](./harnesses.md) — how a workspace's composition is written to
+  each agent's native config.
 - [Plugins & catalogs](./plugins-and-catalogs.md) — the enable/disable
   lifecycle that workspaces scope.

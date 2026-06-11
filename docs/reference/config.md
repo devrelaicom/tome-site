@@ -5,10 +5,10 @@ sidebar_position: 3
 
 # Configuration
 
-Tome keeps its whole library in one place. Every Tome-owned path lives under a
-single root — `~/.tome/` — so inspecting, backing up, or removing Tome's state
-is one directory, not an excavation across your filesystem. Project directories
-carry a small marker so Tome knows which workspace they belong to.
+Tome keeps all of its state in one place. Every Tome-owned path lives under a
+single root — `~/.tome/` — so you can inspect, back up, or remove Tome's state
+by working with one directory. Project directories carry a small marker so Tome
+knows which workspace they belong to.
 
 ## `~/.tome/` layout
 

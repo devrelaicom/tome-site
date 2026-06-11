@@ -5,14 +5,13 @@ sidebar_position: 1
 
 # Commands
 
-Every command, subcommand, and flag — the complete index of the spellbook. Tome
-exits `0` on success and a specific non-zero code for every failure class; see
-[Exit codes](./exit-codes.md).
+Every command, subcommand, and flag. Tome exits `0` on success and a specific
+non-zero code for every failure class; see [Exit codes](./exit-codes.md).
 
 ## `tome catalog`
 
-Manage catalogs — the git repositories of plugins on your bookshelf — plus the
-authoring verbs for making new ones.
+Manage catalogs — the git repositories of plugins you have registered — plus
+the authoring commands for creating new ones.
 
 | Subcommand | Flags | Purpose |
 | --- | --- | --- |
@@ -46,7 +45,7 @@ Author, convert, and validate standalone skills.
 
 | Subcommand | Flags | Purpose |
 | --- | --- | --- |
-| `create <name>` | `--template`, `--bare`, `--plugin-name`, `--output`, `--into`, `--force` | Scaffold a new skill. Wraps it in a minimal plugin by default; `--bare` emits a naked `<name>/SKILL.md`; `--plugin-name` names the wrapping plugin; `--into` drops the skill into an existing plugin's `skills/`. See [Creating](../authoring/create.md). |
+| `create <name>` | `--template`, `--bare`, `--plugin-name`, `--output`, `--into`, `--force` | Scaffold a new skill. Wraps it in a minimal plugin by default; `--bare` emits only a `<name>/SKILL.md`; `--plugin-name` names the wrapping plugin; `--into` drops the skill into an existing plugin's `skills/`. See [Creating](../authoring/create.md). |
 | `convert <source> [<name>]` | `--name`, `--from`, `--output`, `--into`, `--force`, `--dry-run`, `--strict`, `--no-fetch` | Convert a foreign skill — a native `SKILL.md` from Claude Code, Cursor, OpenCode, Cline, or a generic Agent Skill. (`--no-fetch` is accepted but only meaningful for `catalog convert`.) See [Converting](../authoring/convert.md). |
 | `lint <path>` | `--autofix`, `--dry-run`, `--strict` | Validate a Tome skill: structure correctness plus residual harness-isms. See [Linting](../authoring/lint.md). |
 

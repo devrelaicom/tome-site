@@ -6,11 +6,11 @@ sidebar_position: 5
 # Meta skills
 
 Most skills teach your agent about your domain. **Meta skills** teach it about
-Tome itself. They ship bundled inside the `tome` binary — versioned with it,
-no download — and install as native `SKILL.md` files into your harness, so the
-agent learns to drive Tome the same way it learns everything else: by reading.
+Tome itself. They are bundled inside the `tome` binary — versioned with it,
+with no download — and install as native `SKILL.md` files into your harness,
+so the agent reads them the same way it reads any other skill.
 
-## See what's on the shelf
+## List available meta skills
 
 ```bash
 tome meta list
@@ -44,13 +44,13 @@ tome meta add convert-marketplace
 
 By default this writes the skill into the **project** skill directory of
 **every detected harness** — run it once from your project root and every
-agent you use there picks it up. Removal is symmetric:
+agent you use there can read it. Removal works the same way:
 
 ```bash
 tome meta remove convert-marketplace
 ```
 
-### Choosing where it lands
+### Choose the target
 
 | Flag | Effect |
 | --- | --- |
@@ -60,20 +60,20 @@ tome meta remove convert-marketplace
 
 `--harness` and `--global` work the same way on `remove`.
 
-## The first volume: `convert-marketplace`
+## The `convert-marketplace` skill
 
-The bundled skill worth installing today. It guides your agent through
+This is the bundled skill to install first. It guides your agent through
 converting a Claude Code marketplace into Tome's native format: it drives
 `tome catalog convert` and `tome catalog lint` for the mechanical work,
 applies judgment to the parts Tome cannot represent, verifies the result —
 then **reports to you and waits for explicit confirmation** before registering
-anything in a workspace. Your agent does the conversion; you keep the pen for
-the final signature.
+anything in a workspace. Your agent does the conversion; you give the final
+approval.
 
 The manual version of that workflow lives in
 [Converting](../authoring/convert.md).
 
-## Keeping installs fresh
+## Keep installs up to date
 
 Installed copies can drift from the binary: a Tome upgrade ships a newer
 revision (**stale**), a file gets deleted (**missing**), or someone edits the
@@ -89,7 +89,7 @@ re-installs from the bundled copy.
 ## Pitfalls
 
 - **Exit `87` — unknown skill id.** The id you passed isn't a bundled meta
-  skill. `tome meta list` shows what the binary actually carries.
+  skill. `tome meta list` shows which skills the binary includes.
 - **Exit `88` — install failed.** Tome couldn't write the skill files — for
   example, it refuses to write through symlinked directories by design. The
   error says which target failed; installs into other harnesses still proceed.
@@ -97,11 +97,11 @@ re-installs from the bundled copy.
   install into. Pass `--harness <name>` explicitly, or run from a directory
   where a supported harness is set up.
 
-The full table lives in [Exit codes](../reference/exit-codes.md).
+The full table is in [Exit codes](../reference/exit-codes.md).
 
 ## Where next
 
 - [MCP server](./mcp-server.md) — agents can install meta skills themselves,
   via the `meta` tool or the built-in `add-tome-conversion-skill` prompt.
-- [Converting](../authoring/convert.md) — what the guided conversion drives
-  under the hood.
+- [Converting](../authoring/convert.md) — the commands the guided conversion
+  runs.

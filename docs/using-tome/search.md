@@ -5,10 +5,10 @@ sidebar_position: 2
 
 # Search
 
-A catalog of any useful size stops being browsable fast — one plugin in the
-demo catalog carries 28 entries on its own. You shouldn't have to remember
-what anything is called. Tome indexes every enabled skill and command so you
-can ask for what you mean and get the right entry back.
+A catalog of any useful size is hard to browse — one plugin in the demo
+catalog contains 28 entries on its own. You should not have to remember what
+each entry is called. Tome indexes every enabled skill and command so you can
+describe what you need and get the right entry back.
 
 ## `tome query`
 
@@ -31,16 +31,15 @@ tome query "verify a Compact contract"
 | -3.3564 | midnight-expert | midnight-verify | midnight-verify:verify-ledger             | 0.13.0  | skills/midnight-verify:verify-ledger/SKILL.md             |
 ```
 
-The right skill is at the top with a clear margin, and the scores fall off
-honestly — all the way below zero for entries that merely share vocabulary
-with the query.
+The right skill is at the top with a clear margin, and the scores drop
+steeply — below zero for entries that only share vocabulary with the query.
 
 Search runs in two stages:
 
 1. **KNN retrieval** — your query is embedded with a local model and matched
-   against the vector index to pull back the nearest candidates.
+   against the vector index to retrieve the nearest candidates.
 2. **Reranking** — a local cross-encoder reranker re-scores those candidates so
-   the most relevant results rise to the top.
+   the most relevant results are ranked first.
 
 Both models run on your machine; nothing is sent anywhere.
 
@@ -53,10 +52,10 @@ Both models run on your machine; nothing is sent anywhere.
 | `--no-rerank` | Skip the reranking stage; results come back in raw KNN order. |
 | `--catalog <name>` | Restrict the search to a single catalog. |
 | `--plugin <name>` | Restrict the search to a single plugin. |
-| `--strict` | Fail (non-zero exit) instead of returning weak results when nothing meets the bar. |
+| `--strict` | Fail (non-zero exit) instead of returning weak results when no result scores high enough. |
 | `--json` | Emit machine-readable output. |
 
-### Trimming the list with `--top-k`
+### Limit results with `--top-k`
 
 ```bash
 tome query "verify a Compact contract" --top-k 3
@@ -76,19 +75,20 @@ compare scores within a single run, never across runs.
 
 ## Why search matters: load on demand
 
-The point of search is **load on demand**. Instead of stuffing every skill into
-your agent's context up front, the agent searches at runtime and loads only what
-the current task needs. That:
+The point of search is **load on demand**. Instead of loading every skill into
+your agent's context in advance, the agent searches at runtime and loads only
+what the current task needs. That:
 
 - **protects the context window** — skills that aren't relevant never take up
   space;
-- **cuts token spend** — you pay for the skills you use, not your whole library;
+- **cuts token spend** — you pay for the skills you use, not for every enabled
+  entry;
 - **scales** — a large catalog stays usable because retrieval, not context size,
   does the filtering.
 
-To make it concrete: the top hit above, `verify-by-execution`, is a single
+For example: the top result above, `verify-by-execution`, is a single
 SKILL.md of 11,652 characters (1,539 words). Loading it costs one skill's
-worth of context — the plugin's other 27 entries stay on the shelf.
+worth of context — the plugin's other 27 entries are not loaded.
 
 Inside a configured harness, this same search runs over the
 [MCP server](./mcp-server.md), so your agent gets search and skill loading
@@ -98,7 +98,7 @@ without you running `tome query` by hand.
 
 | Exit code | What happened | What to do |
 | --- | --- | --- |
-| `40` | `--strict` was set and no result met the bar. | Expected in scripts — treat it as "no match", or loosen the query. See [exit codes](../reference/exit-codes.md). |
+| `40` | `--strict` was set and no result scored high enough. | Expected in scripts — treat it as "no match", or broaden the query. See [exit codes](../reference/exit-codes.md). |
 
 ## Where next
 

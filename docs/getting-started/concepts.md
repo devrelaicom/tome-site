@@ -5,10 +5,10 @@ sidebar_position: 3
 
 # Concepts
 
-Every coding agent invented its own place to put knowledge — rules files, skill
-directories, MCP config — and none of them read each other's. Tome's model is a
-short chain of nouns that turns that sprawl into one library. Everything else in
-the docs builds on these terms.
+Every coding agent has its own place to put knowledge — rules files, skill
+directories, MCP config — and none of them read each other's. Tome organises
+all of it behind a small set of concepts. Everything else in the docs builds on
+these terms.
 
 ```text
 catalog (git repo)
@@ -32,8 +32,8 @@ Claude Code · Cursor · Codex · Gemini CLI · OpenCode
 
 A **catalog** is a git repository of plugins. You add a catalog by pointing Tome
 at its repo; Tome clones it and registers every plugin it contains. Catalogs are
-the unit of distribution — sharing your work means publishing a catalog and
-telling people to add it to their bookshelf.
+the unit of distribution — to share your work, publish a catalog and tell
+people to add it.
 
 ```bash
 tome catalog add <repo>

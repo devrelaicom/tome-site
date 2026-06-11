@@ -13,7 +13,7 @@ runtime, instead of holding everything in context.
 tome mcp
 ```
 
-The server speaks MCP over stdio, so harnesses launch it as a subprocess.
+The server uses MCP over stdio, so harnesses launch it as a subprocess.
 
 ## Tools
 
@@ -28,7 +28,7 @@ Tome exposes four tools. The first three form a search-then-load flow:
   applied, ready for the agent to use.
 
 The typical loop is: `search_skills` to find candidates → `get_skill_info` to
-confirm → `get_skill` to load only the winner.
+confirm → `get_skill` to load only the best match.
 
 The fourth tool lets the agent extend its own harness:
 
@@ -52,10 +52,10 @@ by Tome.
 Tome also registers one built-in prompt of its own:
 **`add-tome-conversion-skill`**, which installs the `convert-marketplace`
 [meta skill](./meta-skills.md) into the host harness. It is always on, and
-plugin prompts never displace it — a plugin entry that happens to claim the
-same name gets a suffix instead.
+plugin prompts never replace it — a plugin entry with the same name gets a
+suffix instead.
 
-## Wiring it into an editor
+## Configure your editor
 
 You normally don't configure this by hand. Running
 
@@ -68,7 +68,7 @@ editor knows to launch `tome mcp` — with the active workspace and the host
 harness stamped into the arguments — and which tools are available. See
 [Harnesses](./harnesses.md) for what's written per harness.
 
-If you're wiring an MCP client manually, point it at the `tome mcp` command over
-stdio (without `--harness`, the `meta` tool will refuse to install — everything
-else works). If the server fails to start, [Troubleshooting](./troubleshooting.md)
-and `tome doctor` will report why.
+If you configure an MCP client manually, set it to run the `tome mcp` command
+over stdio (without `--harness`, the `meta` tool will refuse to install —
+everything else works). If the server fails to start,
+[Troubleshooting](./troubleshooting.md) and `tome doctor` will report why.

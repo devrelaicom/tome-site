@@ -82,6 +82,6 @@ enforced against the CLI contract in CI.
 
 Codes `85` and `86` are *verdicts*, not crashes: `lint` ran to completion and
 is reporting what it found — `85` means at least one error, `86` means
-warnings-only under `--strict`. Scripts and CI should branch on them (a `0` is
-a clean bill of health; anything else in this pair is feedback, not a tool
+warnings-only under `--strict`. Scripts and CI should branch on them (a `0`
+means no findings; anything else in this pair is feedback, not a tool
 failure). See [Linting](../authoring/lint.md).

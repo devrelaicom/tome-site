@@ -5,11 +5,11 @@ sidebar_position: 1
 
 # Plugins & catalogs
 
-A **catalog** is a volume you add to your bookshelf once: a git repository of
-plugins that Tome clones and indexes. A **plugin** is a chapter you choose to
-read from it: a bundle of skills, commands, agents, and hooks. Day-to-day Tome
-is mostly these two verbs — add volumes, enable chapters — and everything else
-(search, harness config, the MCP server) follows from what you've enabled.
+A **catalog** is a git repository of plugins that you add once. Tome clones
+and indexes it. A **plugin** is a bundle of skills, commands, agents, and
+hooks inside a catalog. You enable the plugins you want. Day-to-day, Tome is
+mostly these two actions — add catalogs, enable plugins — and everything else
+(search, harness config, the MCP server) follows from what you have enabled.
 
 ## Add a catalog
 
@@ -19,7 +19,7 @@ tome catalog add devrelaicom/midnight-expert-tome
 
 Tome clones the repository, parses every plugin manifest it finds, and
 registers the catalog under a short name — here `midnight-expert`, thirteen
-plugins in a single add. Inspect what arrived:
+plugins in a single add. Inspect what was added:
 
 ```bash
 tome catalog show midnight-expert
@@ -49,8 +49,9 @@ Plugins:
 (Output abridged — the full listing also shows the catalog's source URL and
 last sync time.)
 
-Adding a catalog enables nothing by itself. Thirteen plugins are now on the
-shelf; none of them is taking up space in anyone's context window.
+Adding a catalog enables nothing by itself. The thirteen plugins are now
+available, but none of them is enabled, and none of them takes up space in
+any context window.
 
 ## Enable a plugin
 
@@ -59,7 +60,7 @@ tome plugin enable midnight-verify
 ```
 
 Enabling parses the plugin's entries — skills, commands, agents — and indexes
-them for [search](./search.md). Check the state of the shelf:
+them for [search](./search.md). Check the current state:
 
 ```bash
 tome plugin list
@@ -83,28 +84,28 @@ tome plugin list
 | midnight-expert | midnight-wallet       | 0.5.0   | ✗ disabled | —                                 | —            |
 ```
 
-One chapter open: 19 skills, 2 commands, and 7 agents — 28 entries indexed and
-searchable. The other twelve plugins stay shelved, costing nothing, until you
-want them.
+One plugin is enabled: 19 skills, 2 commands, and 7 agents — 28 entries
+indexed and searchable. The other twelve plugins stay disabled and cost
+nothing until you enable them.
 
 ### Variations
 
 - `tome plugin show <name>` prints one plugin's entries, grouped by kind with
   per-entry annotations — useful before deciding whether to enable it.
-- `tome plugin disable <name>` closes the chapter again: its entries leave the
-  index, and your harnesses drop them on the next sync.
+- `tome plugin disable <name>` reverses this: the plugin's entries are removed
+  from the index, and your harnesses drop them on the next sync.
 - Bare `tome plugin` opens an interactive picker — catalog → plugin → action —
-  for when you'd rather browse the shelf than type names.
+  useful when you want to pick from a list instead of typing names.
 
-## Keep volumes current
+## Update catalogs
 
 ```bash
 tome catalog update midnight-expert
 ```
 
-Pulls the catalog's source and re-indexes it. Run this when a catalog you
-follow ships new plugins or revised skills; your enabled plugins pick up the
-changes.
+This pulls the catalog's source repository and re-indexes it. Run it when the
+catalog publishes new plugins or updated skills; your enabled plugins receive
+the changes.
 
 ## Remove a catalog
 
@@ -112,13 +113,13 @@ changes.
 tome catalog remove midnight-expert
 ```
 
-If the catalog still has enabled plugins, removal refuses (exit `53`) rather
-than yank entries out from under your harnesses. Pass `--force` to cascade:
+If the catalog still has enabled plugins, removal fails (exit `53`), because
+your harnesses still use those entries. Pass `--force` to cascade:
 every enabled plugin is disabled first, then the catalog is removed.
 
 ## Catalogs to add today
 
-**Midnight Expert** is the flagship catalog from the Midnight Foundation: a
+**Midnight Expert** is the main catalog from the Midnight Foundation: a
 collection of AI plugins for building, testing, and verifying
 [Compact](https://docs.midnight.network) smart contracts on
 [Midnight](https://midnight.network) — privacy patterns, formal verification,
@@ -138,11 +139,11 @@ including:
 - dApp and SDK development
 - Local devnet and tooling
 
-The verification plugin alone — `midnight-verify` — carries **19 skills,
+The verification plugin alone — `midnight-verify` — contains **19 skills,
 2 commands, and 7 agents**: 28 searchable entries from a single
 `plugin enable`.
 
-Once enabled, point a harness at it:
+Once the plugin is enabled, configure a harness:
 
 ```bash
 tome harness use claude-code
@@ -166,12 +167,12 @@ See [Quickstart](../getting-started/quickstart.md) for the full flow and
 | `53` | Catalog removal refused: it still has enabled plugins. | Disable them, or re-run `tome catalog remove <name> --force` to cascade. |
 | `80` | Plugin not converted: a legacy `.claude-plugin/plugin.json` exists but no `tome-plugin.toml`. | Convert it — see [Converting](../authoring/convert.md). |
 
-The full table lives in the [exit codes reference](../reference/exit-codes.md).
+The full table is in the [exit codes reference](../reference/exit-codes.md).
 
 ## Where next
 
 - [Search](./search.md) — find the right entry by meaning, not by name.
-- [Harnesses](./harnesses.md) — land your enabled plugins in each agent's
+- [Harnesses](./harnesses.md) — write your enabled plugins to each agent's
   native config.
 - [Converting](../authoring/convert.md) — already have plugins in another
-  format? Convert, don't rewrite.
+  format? Convert them instead of rewriting them.
