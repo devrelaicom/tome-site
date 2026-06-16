@@ -3,29 +3,32 @@
 @import '@fontsource-variable/newsreader/wght-italic.css';
 
 :root {
-  /* parchment (light) — Tome grimoire tokens */
+  /* parchment (light) — Tome grimoire tokens, lit by Midnight.
+     The accent is lapis (the blue of illuminated manuscripts) over warm
+     vellum, with gold leaf kept as the secondary. */
   --tome-paper: #f4ecdc;
   --tome-paper-deep: #ece1c8;
-  --tome-ink: #1d1a14;
-  --tome-ink-soft: #4a4337;
-  --tome-oxblood: #8a2f1f;
+  --tome-ink: #1a1726; /* indigo-black ink, not pure warm black */
+  --tome-ink-soft: #4b4660;
+  --tome-lapis: #3531a6; /* the manuscript blue; AAA (8.4:1) on paper */
+  --tome-violet: #6d4dd6; /* gradient partner — Midnight's violet note */
   --tome-gold: #6b5d3f;
   --tome-cream: #f0e9d8;
   --tome-rule: #d4c5a0;
-  --tome-code-bg: #1d1a14; /* code blocks stay dark slate in BOTH modes */
+  --tome-code-bg: #15131f; /* code blocks stay midnight-navy in BOTH modes */
 
   --tome-serif: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
   --tome-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --tome-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* Infima */
-  --ifm-color-primary: #8a2f1f;
-  --ifm-color-primary-dark: #7c2a1c;
-  --ifm-color-primary-darker: #752819;
-  --ifm-color-primary-darkest: #602114;
-  --ifm-color-primary-light: #983425;
-  --ifm-color-primary-lighter: #a03727;
-  --ifm-color-primary-lightest: #b03e2c;
+  --ifm-color-primary: #3531a6;
+  --ifm-color-primary-dark: #302c95;
+  --ifm-color-primary-darker: #2d2a8d;
+  --ifm-color-primary-darkest: #252274;
+  --ifm-color-primary-light: #3a36b7;
+  --ifm-color-primary-lighter: #3f3bc0;
+  --ifm-color-primary-lightest: #514dcc;
   --ifm-background-color: var(--tome-paper);
   --ifm-font-color-base: var(--tome-ink);
   --ifm-font-family-base: var(--tome-sans);
@@ -35,33 +38,34 @@
   --ifm-code-font-size: 90%;
   --ifm-navbar-background-color: rgba(244, 236, 220, 0.92);
   --ifm-toc-border-color: var(--tome-rule);
-  --docusaurus-highlighted-code-line-bg: rgba(138, 47, 31, 0.18);
+  --docusaurus-highlighted-code-line-bg: rgba(138, 134, 255, 0.16);
 }
 
-/* midnight library (dark) — candlelit, not gray-blue */
+/* midnight library (dark) — warm ivory text on Midnight-navy */
 [data-theme='dark'] {
-  --tome-paper: #171310;
-  --tome-paper-deep: #100d0a;
-  --tome-ink: #f0e9d8;
-  --tome-ink-soft: #b5a98e;
-  --tome-oxblood: #c96148; /* warmed + brightened for AA on dark (4.65:1 on #171310) */
+  --tome-paper: #0f0d1c;
+  --tome-paper-deep: #090813;
+  --tome-ink: #f0e9d8; /* warm cream text kept — the grimoire persists */
+  --tome-ink-soft: #a9a3b0;
+  --tome-lapis: #8a86ff; /* electric periwinkle; AA (5.8:1) on midnight-navy */
+  --tome-violet: #b69bff;
   --tome-gold: #9a8a5f;
-  --tome-rule: #3a322a;
+  --tome-rule: #2a2740;
 
-  --ifm-color-primary: #c96148;
-  --ifm-color-primary-dark: #b85138;
-  --ifm-color-primary-darker: #ad4c34;
-  --ifm-color-primary-darkest: #8f3f2b;
-  --ifm-color-primary-light: #ca6850;
-  --ifm-color-primary-lighter: #cf7159;
-  --ifm-color-primary-lightest: #d98b76;
+  --ifm-color-primary: #8a86ff;
+  --ifm-color-primary-dark: #6f6aff;
+  --ifm-color-primary-darker: #625dff;
+  --ifm-color-primary-darkest: #423cf0;
+  --ifm-color-primary-light: #9a96ff;
+  --ifm-color-primary-lighter: #a6a3ff;
+  --ifm-color-primary-lightest: #c2c0ff;
   --ifm-background-color: var(--tome-paper);
   --ifm-background-surface-color: var(--tome-paper-deep);
   --ifm-font-color-base: var(--tome-ink);
-  --ifm-navbar-background-color: rgba(23, 19, 16, 0.92);
+  --ifm-navbar-background-color: rgba(15, 13, 28, 0.92);
 }
 
-/* headings: serif with tight tracking; h1 gets the oxblood full stop via docs CSS, not content */
+/* headings: serif with tight tracking; h1 gets the lapis full stop via docs CSS, not content */
 h1, h2, h3 { letter-spacing: -0.015em; }
 article header h1 { font-size: 2.6rem; }
 
@@ -76,7 +80,7 @@ article .markdown > p { max-width: 72ch; }
   font-weight: 600;
 }
 .menu__link--active:not(.menu__link--sublist) {
-  border-left: 2px solid var(--tome-oxblood);
+  border-left: 2px solid var(--tome-lapis);
   border-radius: 0;
 }
 

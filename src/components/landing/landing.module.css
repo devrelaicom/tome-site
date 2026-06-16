@@ -4,9 +4,8 @@
  *
  * Surfaces that are dark in BOTH modes (the terminals, the final CTA panel)
  * use the mode-stable tokens (--tome-code-bg, --tome-cream) plus literal
- * warm-gold/oxblood values, because --tome-gold / --tome-oxblood /
- * --tome-rule flip with the color mode and would lose contrast on a
- * fixed-dark surface.
+ * gold/periwinkle values, because --tome-gold / --tome-lapis / --tome-rule
+ * flip with the color mode and would lose contrast on a fixed-dark surface.
  */
 
 /* ---- sections & layout ---- */
@@ -42,7 +41,7 @@
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--tome-oxblood);
+  color: var(--tome-lapis);
   margin-bottom: 1.25rem;
 }
 .h1 {
@@ -55,7 +54,10 @@
   margin: 0 0 1.25rem;
 }
 .stop {
-  color: var(--tome-oxblood);
+  background: linear-gradient(135deg, var(--tome-lapis), var(--tome-violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .h2 {
   font-family: var(--tome-serif);
@@ -108,23 +110,25 @@
   font-size: 14px;
   letter-spacing: 0.04em;
   padding: 0.7rem 1.4rem;
-  border: 1px solid var(--tome-oxblood);
+  border: 1px solid var(--tome-lapis);
   border-radius: 2px;
-  color: var(--tome-oxblood);
+  color: var(--tome-lapis);
   text-decoration: none;
 }
 .btn:hover {
-  background: rgba(138, 47, 31, 0.08);
-  color: var(--tome-oxblood);
+  background: rgba(110, 106, 255, 0.12);
+  color: var(--tome-lapis);
   text-decoration: none;
 }
+/* The primary CTA is Midnight's signature: an electric indigo→violet gradient.
+   It is mode-stable (like the terminals) so cream text clears AA in both modes. */
 .btnSolid {
-  background: var(--tome-oxblood);
+  background: linear-gradient(135deg, #3a33c4, #5048ea);
+  border-color: transparent;
   color: var(--tome-cream);
 }
 .btnSolid:hover {
-  background: var(--tome-oxblood);
-  filter: brightness(1.08);
+  filter: brightness(1.12);
   color: var(--tome-cream);
 }
 
@@ -182,7 +186,7 @@
   color: #7ec99a;
 }
 .termPrompt {
-  color: #c45a40; /* warmed oxblood, stable on the always-dark surface */
+  color: #9b96ff; /* periwinkle, stable on the always-dark surface */
 }
 .termCursor {
   display: inline-block;
@@ -232,10 +236,22 @@
   grid-template-columns: repeat(4, 1fr);
 }
 .plate {
+  position: relative;
   border: 1px solid var(--tome-rule);
   border-radius: 4px;
   background: var(--tome-paper-deep);
   padding: 1.4rem;
+}
+/* gradient hairline across the top — a quiet echo of Midnight's chevrons */
+.plate::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 2px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(90deg, var(--tome-lapis), var(--tome-violet));
 }
 .sectionDeep .plate {
   background: var(--tome-paper);
@@ -244,7 +260,7 @@
   font-family: var(--tome-mono);
   font-size: 12px;
   letter-spacing: 0.12em;
-  color: var(--tome-oxblood);
+  color: var(--tome-lapis);
   margin-bottom: 0.7rem;
 }
 .plateCmd {
@@ -301,7 +317,7 @@
   color: var(--tome-ink);
 }
 .sprawlBadge {
-  color: var(--tome-oxblood);
+  color: var(--tome-lapis);
   border: 1px solid var(--tome-rule);
   border-radius: 999px;
   padding: 1px 9px;
@@ -311,8 +327,19 @@
 
 /* ---- final CTA (ink panel in both modes) ---- */
 
+/* the closing panel: a midnight sky. Faint starfield scattered over the navy,
+   echoing Midnight's hero without stealing focus from the install command. */
 .cta {
-  background: var(--tome-code-bg);
+  background-color: var(--tome-code-bg);
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.3), transparent 60%),
+    radial-gradient(1.5px 1.5px at 78% 16%, rgba(182, 155, 255, 0.28), transparent 60%),
+    radial-gradient(1px 1px at 38% 68%, rgba(138, 134, 255, 0.3), transparent 60%),
+    radial-gradient(1px 1px at 64% 82%, rgba(255, 255, 255, 0.22), transparent 60%),
+    radial-gradient(1.5px 1.5px at 88% 58%, rgba(138, 134, 255, 0.24), transparent 60%),
+    radial-gradient(1px 1px at 24% 88%, rgba(182, 155, 255, 0.22), transparent 60%),
+    radial-gradient(1px 1px at 52% 34%, rgba(255, 255, 255, 0.18), transparent 60%);
+  background-repeat: no-repeat;
   padding: 5.5rem 1.5rem;
   text-align: center;
 }
@@ -321,7 +348,7 @@
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #c45a40; /* warmed oxblood for contrast on ink */
+  color: #9b96ff; /* periwinkle for contrast on the midnight panel */
   margin-bottom: 1.25rem;
 }
 .ctaTitle {
@@ -338,7 +365,7 @@
   font-size: 1rem;
   color: var(--tome-cream);
   background: rgba(240, 233, 216, 0.06);
-  border: 1px solid #3a322a;
+  border: 1px solid #2a2740;
   border-radius: 6px;
   padding: 1rem 1.5rem;
   margin: 0 auto 0.75rem;
