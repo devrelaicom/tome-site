@@ -9,9 +9,8 @@ Tome exits `0` on success. Every failure class maps to its own specific non-zero
 code — there is no generic "unknown error" arm — so you can branch on the exact
 failure in scripts. The `--json` error output also includes a snake-case
 `category` for each failure (mostly one per code, though a couple of codes share
-a category — e.g. `52` and `73` both report `schema_too_new`).
-
-{/* TODO(launch): keep this table in sync with error.rs in the tome repo. */}
+a category — e.g. `52` and `73` both report `schema_too_new`). This table is
+enforced against the CLI contract in CI.
 
 | Code | Category | Meaning |
 | --- | --- | --- |
@@ -34,7 +33,7 @@ a category — e.g. `52` and `73` both report `schema_too_new`).
 | `19` | `harness_clash` | Harness configuration clash. |
 | `20` | `plugin_not_found` | Plugin not found. |
 | `21` | `plugin_already_in_state` | Plugin already in the requested state. |
-| `22` | `plugin_manifest_parse_error` | `plugin.json` parse error. |
+| `22` | `plugin_manifest_parse_error` | Plugin manifest (`tome-plugin.toml`) parse error. |
 | `23` | `skill_frontmatter_parse_error` | `SKILL.md` frontmatter parse error. |
 | `24` | `summariser_failure` | Summariser failure. |
 | `25` | `workspace_data_dir_write_failed` | Failed to write a workspace's data directory. |
@@ -68,3 +67,21 @@ a category — e.g. `52` and `73` both report `schema_too_new`).
 | `73` | `schema_too_new` | Workspace schema version too new. |
 | `74` | `schema_migration` | Schema migration failed. |
 | `75` | `doctor_fix_unsafe` | A `doctor --fix` repair was not safe to apply. |
+| `80` | `plugin_not_converted` | Plugin not converted: legacy `.claude-plugin/plugin.json` exists but no `tome-plugin.toml`. |
+| `81` | `output_exists` | Refusing to overwrite existing output (pass `--force`). |
+| `82` | `template_invalid` | Template unusable (missing file, malformed template, render error). |
+| `83` | `source_format_unrecognized` | Could not auto-detect source format (pass `--from <harness>`). |
+| `84` | `conversion_unsupported_strict` | `convert --strict` hit an unsupported feature. |
+| `85` | `validation_found_errors` | `lint` found at least one error. |
+| `86` | `validation_strict_warnings` | `lint --strict` found warnings (and no errors). |
+| `87` | `meta_skill_not_found` | Unknown bundled meta skill id. |
+| `88` | `meta_install_failed` | Failed to install a meta skill. |
+| `89` | `no_harness_detected` | No supported harness detected (use `--harness` or install one). |
+
+## Authoring verdicts
+
+Codes `85` and `86` are *verdicts*, not crashes: `lint` ran to completion and
+is reporting what it found — `85` means at least one error, `86` means
+warnings-only under `--strict`. Scripts and CI should branch on them (a `0`
+means no findings; anything else in this pair is feedback, not a tool
+failure). See [Linting](../authoring/lint.md).

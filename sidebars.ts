@@ -2,13 +2,18 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
   docs: [
-    {type: 'category', label: 'Getting started', collapsed: false, items: [
+    {type: 'category', label: 'Ch. I — Getting started', collapsed: false, items: [
       'getting-started/install', 'getting-started/quickstart', 'getting-started/concepts']},
-    {type: 'category', label: 'Using Tome', items: [
-      'using-tome/harnesses', 'using-tome/search', 'using-tome/mcp-server', 'using-tome/workspaces', 'using-tome/troubleshooting']},
-    {type: 'category', label: 'Commands', items: ['commands/reference']},
-    {type: 'category', label: 'Catalogs', items: ['catalogs/midnight-expert', 'catalogs/authoring']},
-    {type: 'category', label: 'Reference', items: ['reference/security-model', 'reference/exit-codes', 'reference/config']},
+    {type: 'category', label: 'Ch. II — Using Tome', collapsed: false, items: [
+      'using-tome/plugins-and-catalogs', 'using-tome/search', 'using-tome/harnesses',
+      'using-tome/workspaces', 'using-tome/meta-skills', 'using-tome/mcp-server',
+      'using-tome/troubleshooting']},
+    {type: 'category', label: 'Ch. III — Authoring', collapsed: false, items: [
+      'authoring/overview', 'authoring/create', 'authoring/convert', 'authoring/lint',
+      'authoring/distributing']},
+    {type: 'category', label: 'Ch. IV — Reference', items: [
+      'reference/commands', 'reference/exit-codes', 'reference/config',
+      'reference/security-model']},
   ],
 };
 

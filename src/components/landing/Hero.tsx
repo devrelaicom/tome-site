@@ -1,45 +1,44 @@
 import React from 'react';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './landing.module.css';
+import TypedTerminal, {type TermLine} from './TypedTerminal';
+
+// Every number and score below is read from specs/reference/captures/
+// (catalog-add.txt, query.txt, status.txt, NUMBERS.md) — captured from a real
+// tome 0.6.0 run against the midnight-expert catalog, never invented.
+// NUMBERS.md records no token measurement for the top hit, so the closing
+// line quotes the captured word count instead.
+const DEMO: TermLine[] = [
+  {kind: 'cmd', text: 'tome catalog add devrelaicom/midnight-expert-tome'},
+  {kind: 'ok', text: '✓ cloned · 13 plugins · 28 entries indexed'},
+  {kind: 'cmd', text: 'tome query "verify a Compact contract"'},
+  {kind: 'ok', text: '→ 4.7874  midnight-verify:verify-by-execution'},
+  {kind: 'ok', text: '→ 3.4658  midnight-verify:verify-by-zkir-checker'},
+  {kind: 'ok', text: '→ 3.1529  midnight-verify:verify-compact'},
+  {kind: 'out', text: 'loaded 1 skill · 1,539 words — the other 27 stayed on the shelf'},
+];
 
 export default function Hero(): React.JSX.Element {
-  const img = useBaseUrl('/img/tome-exploded.png');
   return (
     <section className={styles.section}>
-      <div className={styles.wrap}>
-        <div className={styles.status}>
-          <div><span className={styles.dot}>●</span> TOME&nbsp;&nbsp;<b>v0.6.0</b>&nbsp;/&nbsp;beta</div>
-          <div>FIG. 001 — HERO</div>
+      <div className={`${styles.wrap} ${styles.heroInner}`}>
+        <div className={styles.kicker}>CHAPTER I — IN WHICH YOUR AGENTS LEARN TO READ</div>
+        <h1 className={styles.h1}>Tome<span className={styles.stop}>.</span></h1>
+        <p className={styles.lede}>
+          One bookshelf for everything your coding agents know — read everywhere, loaded one
+          skill at a time.
+        </p>
+        <div className={styles.ctas}>
+          <a className={`${styles.btn} ${styles.btnSolid}`} href="/docs/getting-started/install">▸ Install Tome</a>
+          <a className={styles.btn} href="/docs/getting-started/quickstart">Read the docs</a>
         </div>
-        <div className={styles.hero}>
-          <div>
-            <div className={styles.kicker}>// cross-harness plugin manager for AI coding agents</div>
-            <h1 className={styles.h1}>Tome</h1>
-            <p className={styles.tagline}>One catalog, <span className={styles.hi}>every coding agent</span>.</p>
-            <p className={styles.lede}>
-              Manage your <b>skills, commands, agents &amp; hooks</b> in one place — then{' '}
-              <b>search and load them on demand</b>, protecting the context window and cutting token
-              spend, across <b>Claude Code, Cursor, Codex, Gemini &amp; OpenCode</b>.
-            </p>
-            <div className={styles.ctas}>
-              <a className={`${styles.btn} ${styles.btnSolid}`} href="/docs/getting-started/install">▸ Install Tome</a>
-              <a className={styles.btn} href="https://github.com/devrelaicom/tome">View on GitHub</a>
-            </div>
-          </div>
-          <div className={styles.plate}>
-            <span className={`${styles.crop} ${styles.tl}`}>+</span><span className={`${styles.crop} ${styles.tr}`}>+</span>
-            <span className={`${styles.crop} ${styles.bl}`}>+</span><span className={`${styles.crop} ${styles.br}`}>+</span>
-            <img className={styles.illo} src={img} alt="Tome — exploded view of the manual" />
-            <div className={styles.platecap}><span>FIG. 001 — <b>Tome</b>, exploded view</span><span>DWG <b>TOME-001</b></span></div>
-          </div>
-        </div>
+        <TypedTerminal label="fig. 1 — the bookshelf at work" lines={DEMO} />
         <div className={styles.works}>
-          <span className={styles.lbl}>Works with</span>
-          <span className={styles.h}>Claude&nbsp;Code</span><span className={styles.x}>/</span>
-          <span className={styles.h}>Cursor</span><span className={styles.x}>/</span>
-          <span className={styles.h}>Codex</span><span className={styles.x}>/</span>
-          <span className={styles.h}>Gemini&nbsp;CLI</span><span className={styles.x}>/</span>
-          <span className={styles.h}>OpenCode</span>
+          <span className={styles.worksLbl}>works with</span>
+          <span className={styles.worksItem}>Claude&nbsp;Code</span><span className={styles.worksSep}>/</span>
+          <span className={styles.worksItem}>Cursor</span><span className={styles.worksSep}>/</span>
+          <span className={styles.worksItem}>Codex</span><span className={styles.worksSep}>/</span>
+          <span className={styles.worksItem}>Gemini&nbsp;CLI</span><span className={styles.worksSep}>/</span>
+          <span className={styles.worksItem}>OpenCode</span>
         </div>
       </div>
     </section>

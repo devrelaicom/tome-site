@@ -5,15 +5,35 @@ sidebar_position: 3
 
 # Concepts
 
-A short tour of the model behind Tome. Everything else in the docs builds on
+Every coding agent has its own place to put knowledge — rules files, skill
+directories, MCP config — and none of them read each other's. Tome organises
+all of it behind a small set of concepts. Everything else in the docs builds on
 these terms.
+
+```text
+catalog (git repo)
+  └─ plugins
+       └─ entries (skills · commands · agents · hooks)
+                │
+                │  tome plugin enable
+                ▼
+        central index — ~/.tome/ (SQLite + vector search, fully local)
+                │
+        ┌───────┴──────────────┐
+        ▼                      ▼
+    tome query             tome mcp
+    (you, at a shell)      (your agent, mid-task)
+
+tome harness use <name> writes each harness's native config:
+Claude Code · Cursor · Codex · Gemini CLI · OpenCode
+```
 
 ## Catalog
 
 A **catalog** is a git repository of plugins. You add a catalog by pointing Tome
-at its repo; Tome clones it, parses every plugin it contains, and indexes the
-entries for search. Catalogs are the unit of distribution — sharing your work
-means publishing a catalog and telling people to add it.
+at its repo; Tome clones it and registers every plugin it contains. Catalogs are
+the unit of distribution — to share your work, publish a catalog and tell
+people to add it.
 
 ```bash
 tome catalog add <repo>
@@ -22,11 +42,14 @@ tome catalog add <repo>
 ## Plugin
 
 A **plugin** is a bundle of capabilities inside a catalog, described by a
-`plugin.json` manifest. Plugins are enabled or disabled individually. Enabling a
-plugin makes its entries available to your harnesses and to search.
+`tome-plugin.toml` manifest. Plugins are enabled or disabled individually;
+enabling one parses, embeds, and indexes its entries, making them available to
+your harnesses and to search. Plugins that only have a legacy Claude Code
+`plugin.json` aren't loaded — [`tome plugin convert`](../authoring/convert.md)
+migrates them; unconverted plugins exit `80`.
 
 ```bash
-tome plugin enable <name>
+tome plugin enable <catalog>/<plugin>
 ```
 
 ## Entry kinds
@@ -71,6 +94,15 @@ telemetry.
 
 `tome mcp` runs Tome as an [MCP](https://modelcontextprotocol.io) server. It
 exposes search and skill-loading tools (`search_skills`, `get_skill`,
-`get_skill_info`) plus user-invocable entries as MCP prompts, so an agent can
+`get_skill_info`), a `meta` tool that installs Tome's bundled meta skills into
+the host harness, plus user-invocable entries as MCP prompts — so an agent can
 find and load only the skills it needs at runtime rather than holding everything
 in context. See the [MCP server](../using-tome/mcp-server.md) page for wiring.
+
+## Meta skill
+
+A **meta skill** is a skill about Tome itself — curated, bundled inside the
+binary, and installed as a native `SKILL.md` into your harness so your agent
+knows how to drive Tome. The first one, `convert-marketplace`, guides an agent
+through converting a Claude Code marketplace into a Tome catalog. See
+[Meta skills](../using-tome/meta-skills.md).

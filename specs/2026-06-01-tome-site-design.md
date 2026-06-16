@@ -81,7 +81,7 @@ It has two co-equal jobs (decided: "balanced", landing weighted for the launch m
 5. **§05 Featured catalog: Midnight Expert** — two-column: description (Compact smart-contract expertise) + a terminal panel with the real `tome catalog add devrelaicom/midnight-expert-tome` flow. Counts to be confirmed at build.
 6. **§06 Get started** — terminal panel (`brew install aaronbassett/homebrew-tap/tome`, `cargo install tome-mcp`, first-run), plus a self-contained-binary / no-telemetry / platform note.
 7. **§07 Publish your own** — author on-ramp band → authoring guide.
-8. **Footer** — dark back-cover: repeated `TOME` wordmark, "A Midnight Foundation tool", `tome.midnightntwrk.expert`, license, link columns (Product / Project / Midnight).
+8. **Footer** — dark back-cover: repeated `TOME` wordmark, "A Midnight Foundation tool", `tome-mcp.com`, license, link columns (Product / Project / Midnight).
 
 ### 5.2 Docs `/docs` (YAGNI-trimmed for beta)
 - **Getting started** — Install · Quickstart · Concepts (catalogs, plugins, the 4 entry kinds, workspaces, harnesses).
@@ -116,7 +116,7 @@ It has two co-equal jobs (decided: "balanced", landing weighted for the launch m
 
 ## 9. Hosting & deployment
 - **Host:** Netlify (per-PR deploy previews; integration available).
-- **Domain:** `tome.midnightntwrk.expert` (DNS CNAME → Netlify; configure `url`/`baseUrl` in `docusaurus.config.ts`).
+- **Domain:** `tome-mcp.com` (DNS CNAME → Netlify; configure `url`/`baseUrl` in `docusaurus.config.ts`).
 - Build: `pnpm build` → static output to `build/`. Netlify build settings + (optionally) `netlify.toml`.
 - Keep the `supply-chain-check` GitHub workflow; Netlify handles deploy.
 
@@ -147,7 +147,7 @@ It has two co-equal jobs (decided: "balanced", landing weighted for the launch m
 - Value legible in ~10s; balanced promo + docs.
 - Visual identity reads as a Midnight sibling, distinct from Midnight Expert.
 - Every shown command resolves at launch.
-- Lighthouse-clean static build on Netlify at `tome.midnightntwrk.expert`; no telemetry/third-party calls.
+- Lighthouse-clean static build on Netlify at `tome-mcp.com`; no telemetry/third-party calls.
 - Supply-chain hardening intact.
 
 ## 15. Decision log (from the brainstorm)
@@ -157,5 +157,5 @@ It has two co-equal jobs (decided: "balanced", landing weighted for the launch m
 - Discovery: **featured Midnight Expert catalog** now; gallery later (A → B).
 - Identity: **sub-brand / harmonized** (C); manual-paper "workshop manual" sibling to Midnight Expert's terminal; v1 too-kitsch and v2 too-clone rejected; v3–v5 locked the direction.
 - Hero illustration: exploded "tome" cutaway (nanobanana-generated example; consistent spot-illustration system in build).
-- Hosting **Netlify**; domain **tome.midnightntwrk.expert**.
+- Hosting **Netlify**; domain **tome-mcp.com**.
 - Stack stays Docusaurus (scaffold already in place); preserve supply-chain hardening.

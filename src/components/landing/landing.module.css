@@ -1,79 +1,450 @@
-.wrap { width: min(1120px, 100%); margin: 0 auto; padding: 0 28px; }
-.mono { font-family: 'IBM Plex Mono', monospace; }
-.section { border-bottom: 1.5px solid var(--tome-ink); }
-.pad { padding: 30px 0 40px; }
-.marker { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--tome-green); padding: 14px 0 0; }
-.marker .n { color: var(--tome-ink-soft); }
-.secTitle { font-size: 38px; font-weight: 700; letter-spacing: -.01em; margin: 6px 0 24px; }
-.hi { background: linear-gradient(transparent 56%, var(--tome-green-hi) 56% 94%, transparent 94%); padding: 0 .04em; }
+/*
+ * Grimoire landing styles. Consumes the --tome-* tokens defined in
+ * src/css/custom.css (parchment light / midnight-library dark).
+ *
+ * Surfaces that are dark in BOTH modes (the terminals, the final CTA panel)
+ * use the mode-stable tokens (--tome-code-bg, --tome-cream) plus literal
+ * gold/periwinkle values, because --tome-gold / --tome-lapis / --tome-rule
+ * flip with the color mode and would lose contrast on a fixed-dark surface.
+ */
 
-/* status + hero */
-.status { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .05em; color: var(--tome-ink-soft); text-transform: uppercase; }
-.status .dot { color: var(--tome-green); }
-.status b { color: var(--tome-ink); font-weight: 600; }
-.hero { display: grid; grid-template-columns: 1.08fr .92fr; gap: 34px; padding: 40px 0 34px; align-items: center; }
-.kicker { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--tome-green); margin-bottom: 16px; }
-.h1 { font-weight: 700; font-size: 104px; line-height: .9; letter-spacing: -.02em; margin: 0; }
-.tagline { font-weight: 500; font-size: 28px; line-height: 1.15; margin: 12px 0 0; }
-.lede { color: #3a443d; font-size: 17px; line-height: 1.55; max-width: 32em; margin: 18px 0 24px; }
-.lede b { color: var(--tome-ink); font-weight: 600; }
-.ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn { font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; padding: 12px 18px; text-decoration: none; border: 1.5px solid var(--tome-ink); color: var(--tome-ink); }
-.btnSolid { background: var(--tome-green); border-color: var(--tome-green); color: #04130d; font-weight: 600; }
-.plate { position: relative; border: 1.5px solid var(--tome-ink); background: #fbfaf5; padding: 14px; }
-.crop { position: absolute; color: var(--tome-blue); font-family: 'IBM Plex Mono', monospace; font-size: 14px; }
-.tl { top: 5px; left: 7px; } .tr { top: 5px; right: 7px; } .bl { bottom: 5px; left: 7px; } .br { bottom: 5px; right: 7px; }
-.illo { display: block; width: 100%; max-height: 440px; object-fit: contain; margin: 0 auto; }
-.platecap { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--tome-rule); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .06em; color: var(--tome-ink-soft); text-transform: uppercase; }
-.platecap b { color: var(--tome-ink); }
-.works { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; padding: 15px 0; border-top: 1px solid var(--tome-rule); font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--tome-ink-soft); }
-.works .lbl { color: var(--tome-green); text-transform: uppercase; font-size: 11px; letter-spacing: .16em; }
-.works .h { color: var(--tome-ink); } .works .x { color: var(--tome-rule); }
+/* ---- sections & layout ---- */
 
-/* highlights */
-.cards { display: grid; grid-template-columns: repeat(4, 1fr); border: 1.5px solid var(--tome-ink); }
-.card { padding: 20px 18px; border-right: 1.5px solid var(--tome-ink); }
-.card:last-child { border-right: 0; }
-.card .fl { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--tome-green); letter-spacing: .1em; margin-bottom: 12px; }
-.card h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.05; }
-.card p { font-size: 14px; color: #3a443d; line-height: 1.5; }
+.section {
+  background: var(--tome-paper);
+  padding: 5.5rem 1.5rem;
+}
+.sectionDeep {
+  background: var(--tome-paper-deep);
+}
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
 
-/* steps */
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-.num { font-size: 74px; font-weight: 700; color: transparent; -webkit-text-stroke: 1.5px var(--tome-green); line-height: 1; }
-.step h3 { font-size: 20px; font-weight: 700; margin: 6px 0 8px; }
-.step p { font-size: 15px; color: #3a443d; line-height: 1.5; }
-.cmd { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--tome-ink); background: #fbfaf5; border: 1px solid var(--tome-rule); padding: 7px 9px; margin-top: 10px; display: inline-block; }
+/* ---- type ---- */
 
-/* spec sheet */
-.spec { width: 100%; border-collapse: collapse; border: 1.5px solid var(--tome-ink); font-size: 14px; }
-.spec th { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--tome-ink-soft); text-align: left; padding: 10px 14px; border-bottom: 1.5px solid var(--tome-ink); }
-.spec td { padding: 11px 14px; border-bottom: 1px solid var(--tome-rule); vertical-align: top; }
-.spec tr:last-child td { border-bottom: 0; }
-.specCmd { font-family: 'IBM Plex Mono', monospace; color: var(--tome-green); font-weight: 500; white-space: nowrap; }
-.specTag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--tome-ink-soft); text-transform: uppercase; white-space: nowrap; }
+.kicker {
+  font-family: var(--tome-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tome-lapis);
+  margin-bottom: 1.25rem;
+}
+.h1 {
+  font-family: var(--tome-serif);
+  font-weight: 700;
+  font-size: clamp(3.5rem, 9vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  color: var(--tome-ink);
+  margin: 0 0 1.25rem;
+}
+.stop {
+  background: linear-gradient(135deg, var(--tome-lapis), var(--tome-violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.h2 {
+  font-family: var(--tome-serif);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4.5vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--tome-ink);
+  margin: 0 0 1.1rem;
+}
+.lede {
+  font-family: var(--tome-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--tome-ink-soft);
+  max-width: 46ch;
+  margin: 0 0 1.25rem;
+}
+.heroInner .lede {
+  margin-left: auto;
+  margin-right: auto;
+}
+.lede code {
+  font-style: normal;
+  font-size: 0.85em;
+}
+.closing {
+  font-family: var(--tome-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--tome-ink-soft);
+  max-width: 60ch;
+  margin: 2.25rem 0 0;
+}
 
-/* two-col + terminal */
-.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
-.fblock p { font-size: 16px; color: #3a443d; line-height: 1.6; margin-bottom: 14px; max-width: 34em; }
-.fblock b { color: var(--tome-ink); }
-.pill { display: inline-flex; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--tome-ink-soft); text-transform: uppercase; letter-spacing: .06em; margin-top: 6px; }
-.pill b { color: var(--tome-ink); }
-.term { background: var(--tome-dark); border: 1.5px solid var(--tome-ink); color: #dfe7e1; font-family: 'IBM Plex Mono', monospace; }
-.termBar { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,.12); font-size: 11px; color: #7c887f; letter-spacing: .08em; text-transform: uppercase; }
-.termBar i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-.dotR { background: #e2574b; } .dotY { background: #e6b94f; } .dotG { background: #3fbf78; }
-.termBody { padding: 16px; font-size: 13.5px; line-height: 1.7; }
-.termP { color: var(--tome-green-hi); } .termC { color: #7c887f; } .termO { color: #aeb9b2; }
+/* ---- buttons ---- */
 
-/* author band */
-.band { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 30px 0; }
-.band h2 { font-size: 28px; font-weight: 700; } .band p { color: #3a443d; margin-top: 4px; }
+.ctas {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1.25rem 0 2.75rem;
+}
+.btn {
+  display: inline-block;
+  font-family: var(--tome-mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid var(--tome-lapis);
+  border-radius: 2px;
+  color: var(--tome-lapis);
+  text-decoration: none;
+}
+.btn:hover {
+  background: rgba(110, 106, 255, 0.12);
+  color: var(--tome-lapis);
+  text-decoration: none;
+}
+/* The primary CTA is Midnight's signature: an electric indigo→violet gradient.
+   It is mode-stable (like the terminals) so cream text clears AA in both modes. */
+.btnSolid {
+  background: linear-gradient(135deg, #3a33c4, #5048ea);
+  border-color: transparent;
+  color: var(--tome-cream);
+}
+.btnSolid:hover {
+  filter: brightness(1.12);
+  color: var(--tome-cream);
+}
 
-/* responsive */
-@media (max-width: 860px) {
-  .hero, .twocol { grid-template-columns: 1fr; }
-  .cards { grid-template-columns: 1fr 1fr; }
-  .steps { grid-template-columns: 1fr; }
-  .h1 { font-size: 72px; }
+/* ---- terminal (dark in both modes) ---- */
+
+.terminal {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: left;
+  background: var(--tome-code-bg);
+  border: 1px solid var(--tome-gold);
+  border-radius: 6px;
+  padding: 1.1rem 1.25rem 1.3rem;
+  font-family: var(--tome-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--tome-cream);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  /* Reserve the full transcript's height so the typing loop never reflows
+     the sections below it. */
+  min-height: 17em;
+}
+@media (min-width: 997px) {
+  .terminal {
+    font-size: 15px;
+  }
+}
+@media (max-width: 700px) {
+  .terminal {
+    min-height: 26em;
+  }
+}
+.terminalStatic {
+  min-height: 0;
+  font-size: 13px;
+  max-width: none;
+}
+.termTitle {
+  font-family: var(--tome-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a8a5f; /* warm gold, stable on the always-dark surface */
+  margin-bottom: 0.9rem;
+}
+.term_cmd {
+  color: var(--tome-cream);
+}
+.term_out {
+  color: #9a8a5f; /* muted gold */
+}
+.term_ok {
+  color: #7ec99a;
+}
+.termPrompt {
+  color: #9b96ff; /* periwinkle, stable on the always-dark surface */
+}
+.termCursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  background: var(--tome-cream);
+  vertical-align: text-bottom;
+}
+
+/* ---- works-with strip ---- */
+
+.works {
+  display: flex;
+  gap: 0.9rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2rem;
+  font-family: var(--tome-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: var(--tome-ink-soft);
+}
+.worksLbl {
+  color: var(--tome-gold);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+.worksItem {
+  color: var(--tome-ink);
+}
+.worksSep {
+  color: var(--tome-rule);
+}
+
+/* ---- plates (method ×3, colophon ×4) ---- */
+
+.plates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+  margin-top: 2.25rem;
+}
+.platesFour {
+  grid-template-columns: repeat(4, 1fr);
+}
+.plate {
+  position: relative;
+  border: 1px solid var(--tome-rule);
+  border-radius: 4px;
+  background: var(--tome-paper-deep);
+  padding: 1.4rem;
+}
+/* gradient hairline across the top — a quiet echo of Midnight's chevrons */
+.plate::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 2px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(90deg, var(--tome-lapis), var(--tome-violet));
+}
+.sectionDeep .plate {
+  background: var(--tome-paper);
+}
+.plateNum {
+  font-family: var(--tome-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--tome-lapis);
+  margin-bottom: 0.7rem;
+}
+.plateCmd {
+  display: block;
+  font-family: var(--tome-mono);
+  font-size: 13px;
+  background: var(--tome-code-bg);
+  color: var(--tome-cream);
+  border: none;
+  padding: 0.5rem 0.65rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.plateTerm {
+  font-family: var(--tome-serif);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--tome-ink);
+  margin-bottom: 0.4rem;
+}
+.plateDesc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--tome-ink-soft);
+  margin: 0;
+}
+
+/* ---- the sprawl: five drifting copies ---- */
+
+.sprawlCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.sprawlCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--tome-rule);
+  border-radius: 4px;
+  background: var(--tome-paper);
+  padding: 0.7rem 1rem;
+  font-family: var(--tome-mono);
+  font-size: 13px;
+}
+.sprawlPath {
+  color: var(--tome-ink-soft);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+}
+.sprawlFile {
+  color: var(--tome-ink);
+}
+.sprawlBadge {
+  color: var(--tome-lapis);
+  border: 1px solid var(--tome-rule);
+  border-radius: 999px;
+  padding: 1px 9px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* ---- final CTA (ink panel in both modes) ---- */
+
+/* the closing panel switches with the theme: a parchment band with a faint
+   lapis-violet glow in light, a midnight sky with a starfield in dark. The
+   install command stays a dark code chip in both modes, like every other code
+   block on the site. */
+.cta {
+  background-color: var(--tome-paper-deep);
+  background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(109, 77, 214, 0.14), transparent 70%);
+  background-repeat: no-repeat;
+  padding: 5.5rem 1.5rem;
+  text-align: center;
+}
+:global([data-theme='dark']) .cta {
+  background-color: var(--tome-code-bg);
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.3), transparent 60%),
+    radial-gradient(1.5px 1.5px at 78% 16%, rgba(182, 155, 255, 0.28), transparent 60%),
+    radial-gradient(1px 1px at 38% 68%, rgba(138, 134, 255, 0.3), transparent 60%),
+    radial-gradient(1px 1px at 64% 82%, rgba(255, 255, 255, 0.22), transparent 60%),
+    radial-gradient(1.5px 1.5px at 88% 58%, rgba(138, 134, 255, 0.24), transparent 60%),
+    radial-gradient(1px 1px at 24% 88%, rgba(182, 155, 255, 0.22), transparent 60%),
+    radial-gradient(1px 1px at 52% 34%, rgba(255, 255, 255, 0.18), transparent 60%);
+}
+.ctaKicker {
+  font-family: var(--tome-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tome-lapis);
+  margin-bottom: 1.25rem;
+}
+.ctaTitle {
+  font-family: var(--tome-serif);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4.5vw, 2.75rem);
+  line-height: 1.1;
+  color: var(--tome-ink);
+  margin: 0 0 1.75rem;
+}
+.install {
+  display: inline-block;
+  font-family: var(--tome-mono);
+  font-size: 1rem;
+  color: var(--tome-cream);
+  background: var(--tome-code-bg);
+  border: 1px solid var(--tome-rule);
+  border-radius: 6px;
+  padding: 1rem 1.5rem;
+  margin: 0 auto 0.75rem;
+  overflow-wrap: anywhere;
+}
+.installSub {
+  font-family: var(--tome-mono);
+  font-size: 13px;
+  color: var(--tome-gold);
+  margin-bottom: 2.25rem;
+}
+.btnGhost {
+  display: inline-block;
+  font-family: var(--tome-mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid var(--tome-gold);
+  border-radius: 2px;
+  color: var(--tome-ink);
+  text-decoration: none;
+}
+.btnGhost:hover {
+  background: rgba(110, 106, 255, 0.12);
+  color: var(--tome-ink);
+  text-decoration: none;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .plates,
+  .platesFour {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .section,
+  .cta {
+    padding: 3.5rem 1.25rem;
+  }
+  .plates,
+  .platesFour {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- motion (all animation lives behind no-preference) ---- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .termCursor {
+    animation: blink 1s steps(1) infinite;
+  }
+
+  /* .fadeIn is added by each section's IntersectionObserver hook (which is
+     itself a no-op under reduced motion); .fadeInShown reveals on scroll. */
+  .fadeIn {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fadeInShown {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
