@@ -17,7 +17,7 @@ const config: Config = {
 
   future: {v4: true},
 
-  url: 'https://tome.midnightntwrk.expert',
+  url: 'https://tome-mcp.com',
   baseUrl: '/',
 
   organizationName: 'devrelaicom',

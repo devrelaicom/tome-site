@@ -14,7 +14,7 @@ export default function Footer(): React.JSX.Element {
         <div className={styles.grid}>
           <div>
             <div className={styles.wm}>TOME</div>
-            <div className={styles.made}>A Midnight Foundation tool.<br/>tome.midnightntwrk.expert<br/>MIT OR Apache-2.0</div>
+            <div className={styles.made}>A Midnight Foundation tool.<br/>tome-mcp.com<br/>MIT OR Apache-2.0</div>
           </div>
           {COLS.map((col) => (
             <div key={col.h}>
